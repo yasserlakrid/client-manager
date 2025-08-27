@@ -1,5 +1,5 @@
 //localStorage.clear("clients")
-import { clientsListPage } from "../pages.js";
+import { clientsListPage } from "./pages.js";
 import { initialPage } from "./pages.js";
 import { bod } from './pages.js'
 
@@ -246,4 +246,5 @@ bod.addEventListener('click', (e) => {
         renderClientsPage();
     }
 });
+
 renderTodayPage()
