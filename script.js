@@ -4,7 +4,7 @@ import { initialPage } from "./pages.js";
 import { bod } from './pages.js'
 
 
-import { todayClientPage } from "../pages.js";
+import { todayClientPage } from "./pages.js";
 export let clientsList = JSON.parse(localStorage.getItem("clients")) || [];
 let clientsListBtn = document.querySelector('.clientsList');
 
@@ -248,3 +248,4 @@ bod.addEventListener('click', (e) => {
 });
 
 renderTodayPage()
+
