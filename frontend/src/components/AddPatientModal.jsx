@@ -12,6 +12,8 @@ export default function AddPatientModal({
   if (!show) return null;
 
   return (
+        <div className="modal-overlay">
+
     <div className="modal-backdrop" onClick={onClose}>
       <div className="glass-card modal-container" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
@@ -81,6 +83,7 @@ export default function AddPatientModal({
           </div>
         </form>
       </div>
+    </div>
     </div>
   );
 }

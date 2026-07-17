@@ -22,6 +22,7 @@ import {
   HeartPulse,
   Languages
 } from 'lucide-react';
+
 import Sidebar from './components/Sidebar';
 import DashboardView from './components/DashboardView';
 import DirectoryView from './components/DirectoryView';
@@ -706,9 +707,7 @@ useEffect(() => {
                 <h1>{t.overviewTitle}</h1>
                 <p>{t.overviewSubtitle}</p>
               </div>
-              <button className="btn btn-primary" onClick={() => setShowAddClient(true)}>
-                <Plus size={18} /> {t.registerPatient}
-              </button>
+              
             </div>
 
             {/* Metrics cards grid */}
@@ -844,180 +843,33 @@ useEffect(() => {
         {/* Directory View */}
 {
   currentView === "clients" && <div>
-            <div className="dashboard-header">
-              <div className="header-title">
-                <h1>{t.patientPortfolioTitle}</h1>
-                <p>{t.patientPortfolioSubtitle}</p>
-              </div>
-              <button className="btn btn-primary" onClick={() => setShowAddClient(true)}>
-                <Plus size={18} /> {t.registerPatient}
-              </button>
-            </div>
-
-            {/* Filter toolbar */}
-            <div className="glass-card" style={{ padding: '16px', marginBottom: '24px' }}>
-              <div className="search-filter-row">
-                <div className="search-input-wrapper">
-                  <Search size={20} />
-                  <input 
-                    type="text" 
-                    placeholder={t.searchPlaceholder} 
-                    className="search-input"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </div>
-
-                <select 
-                  className="select-filter"
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                >
-                  <option value="All">{t.allStatuses}</option>
-                  <option value="Active">{t.active}</option>
-                  <option value="Inactive">{t.inactive}</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Patients Table */}
-            <div className="glass-card" style={{ padding: '0px', overflow: 'hidden' }}>
-              <div className="table-container">
-                <table className="custom-table">
-                  <thead>
-                    <tr>
-                      <th>{t.patient}</th>
-                      <th>{t.totalBilled}</th>
-                      <th>{t.status}</th>
-                      <th>{t.appointments}</th>
-                      <th style={{ textAlign: 'right' }}>{t.actions}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredClients.map(client => (
-                      <tr key={client.id} style={{ cursor: 'pointer' }} onClick={() => { setSelectedClient(client); setCurrentView('details'); }}>
-                        <td style={{ fontWeight: '600' }}>
-                          <div>{client.name}</div>
-                          <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: '400' }}>{client.email}</div>
-                        </td>
-                        <td style={{ fontWeight: '500' }}>{client.value.toLocaleString()} DA</td>
-                        <td>
-                          <span className={`badge badge-${client.status === 'Active' ? 'active' : 'inactive'}`}>
-                            {client.status === 'Active' ? t.active : t.inactive}
-                          </span>
-                        </td>
-                        <td>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <Calendar size={16} color="var(--text-muted)" />
-                            <span>{(client.appointments || []).filter(a => a.status === 'Scheduled').length} {t.scheduled}</span>
-                          </div>
-                        </td>
-                        <td style={{ textAlign: 'right' }} onClick={(e) => e.stopPropagation()}>
-                          <button 
-                            className="btn btn-secondary" 
-                            style={{ padding: '6px 12px', fontSize: '0.8rem', marginRight: '8px' }}
-                            onClick={() => { setSelectedClient(client); setCurrentView('details'); }}
-                          >
-                            {t.viewDetails}
-                          </button>
-                          <button 
-                            className="btn btn-danger" 
-                            style={{ padding: '6px 12px', fontSize: '0.8rem' }}
-                            onClick={() => handleDeleteClient(client.id)}
-                          >
-                            {t.delete}
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                    {filteredClients.length === 0 && (
-                      <tr>
-                        <td colSpan="6" style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '48px 0' }}>
-                          {t.noPatientsFound}
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>{selectedClient && (
-          <div>
-            {/* Header back navigation */}
-          
-          </div>
-        )}
-   
-        
+            
+<DirectoryView
+filteredClients={filteredClients}
+  searchQuery={searchQuery}
+  setSearchQuery={setSearchQuery}
+  statusFilter={statusFilter}
+  setStatusFilter={setStatusFilter}
+  setShowAddClient={setShowAddClient}
+  setSelectedClient={setSelectedClient}
+  setCurrentView={setCurrentView}
+  handleDeleteClient={handleDeleteClient}
+  t={t}
+/>
       
 
-      {showAddClient && (
-        <div className="modal-overlay" onClick={() => setShowAddClient(false)}>
-          <div className="glass-card modal-content" onClick={(e) => e.stopPropagation()}>
-            <h2 style={{ marginBottom: '24px', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px' }}>{t.registerPatient}</h2>
-            <form onSubmit={handleCreateClient}>
-              <div className="form-group">
-                <label>{t.patientFullName}</label>
-                <input 
-                  type="text" 
-                  className="form-control" 
-                  required
-                  placeholder="e.g. Clark Kent"
-                  value={newClientData.name}
-                  onChange={(e) => setNewClientData({ ...newClientData, name: e.target.value })}
-                />
-              </div>
-              <div className="form-group">
-                <label>{t.emailAddress}</label>
-                <input 
-                  type="email" 
-                  className="form-control" 
-                  placeholder="clark@dailyplanet.com"
-                  value={newClientData.email}
-                  onChange={(e) => setNewClientData({ ...newClientData, email: e.target.value })}
-                />
-              </div>
-              <div className="form-group">
-                <label>{t.phoneNumber}</label>
-                <input 
-                  type="text" 
-                  className="form-control" 
-                  placeholder="+1 (555) 304-2094"
-                  value={newClientData.phone}
-                  onChange={(e) => setNewClientData({ ...newClientData, phone: e.target.value })}
-                />
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                <div className="form-group">
-                  <label>{t.status}</label>
-                  <select 
-                    className="form-control"
-                    value={newClientData.status}
-                    onChange={(e) => setNewClientData({ ...newClientData, status: e.target.value })}
-                  >
-                    <option value="Active">{t.active}</option>
-                    <option value="Inactive">{t.inactive}</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label>{t.initialBilled}</label>
-                  <input 
-                    type="number" 
-                    className="form-control" 
-                    placeholder="e.g. 150"
-                    value={newClientData.value}
-                    onChange={(e) => setNewClientData({ ...newClientData, value: e.target.value })}
-                  />
-                </div>
-              </div>
-              
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '24px' }}>
-                <button type="button" className="btn btn-secondary" onClick={() => setShowAddClient(false)}>{t.cancel}</button>
-                <button type="submit" className="btn btn-primary">{t.createProfile}</button>
-              </div>
-            </form>
-          </div>
-        </div>
+     
+        {showAddClient && (
+        <AddPatientModal
+          show={showAddClient}
+          onClose={() => setShowAddClient(false)}
+          newClientData={newClientData}
+          setNewClientData={setNewClientData}
+          handleCreateClient={handleCreateClient}
+          t={t}
+        />
       )}
+      
 
       {/* Modal: Schedule Appointment */}
       {showAddProject && (
