@@ -1,0 +1,16 @@
+{
+  "name": "client-manager-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "npx concurrently \"npm run dev -w backend\" \"npm run dev -w frontend\"",
+    "install-all": "npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
