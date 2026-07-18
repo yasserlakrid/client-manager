@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  LayoutDashboard, 
-  Users, 
-  TrendingUp, 
-  DollarSign, 
-  Plus, 
-  Search, 
-  ArrowLeft, 
-  Mail, 
-  Phone, 
-  Clock, 
-  Sun, 
-  Moon, 
-  Receipt, 
-  Activity, 
+import {
+  LayoutDashboard,
+  Users,
+  TrendingUp,
+  DollarSign,
+  Plus,
+  Search,
+  ArrowLeft,
+  Mail,
+  Phone,
+  Clock,
+  Sun,
+  Moon,
+  Receipt,
+  Activity,
   AlertCircle,
   Calendar,
   Sparkles,
   Shield,
   Trash2,
   HeartPulse,
-  Languages
+  Languages,
 } from 'lucide-react';
 
 import Sidebar from './components/Sidebar';
@@ -36,11 +36,10 @@ const API_BASE = '/api';
 
 const DEFAULT_CLIENTS = [];
 
-
 export default function App() {
   const [theme, setTheme] = useState('dark');
   const [lang, setLang] = useState('en');
-  const [currentView, setCurrentView] = useState('dashboard'); // 'dashboard' | 'clients' | 'details'
+  const [currentView, setCurrentView] = useState('clients'); // 'dashboard' | 'clients' | 'details'
   const [clients, setClients] = useState([]);
   const [selectedClient, setSelectedClient] = useState(null);
   const [useLocalFallback, setUseLocalFallback] = useState(false);
@@ -56,9 +55,26 @@ export default function App() {
   const [showAddInvoice, setShowAddInvoice] = useState(false); // Payment Modal
 
   // Form states
-  const [newClientData, setNewClientData] = useState({ name: '', email: '', phone: '', company: '', status: 'Active', value: '' });
-  const [newProjectData, setNewProjectData] = useState({ date: '', time: '', treatment: 'Cleaning & Checkup', status: 'Scheduled' });
-  const [newInvoiceData, setNewInvoiceData] = useState({ amount: '', date: '', method: 'Card', status: 'Paid' });
+  const [newClientData, setNewClientData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    company: '',
+    status: 'Active',
+    value: '',
+  });
+  const [newProjectData, setNewProjectData] = useState({
+    date: '',
+    time: '',
+    treatment: 'Cleaning & Checkup',
+    status: 'Scheduled',
+  });
+  const [newInvoiceData, setNewInvoiceData] = useState({
+    amount: '',
+    date: '',
+    method: 'Card',
+    status: 'Paid',
+  });
   const [newLogData, setNewLogData] = useState({ type: 'note', description: '' });
 
   // Detail View Active Tab
@@ -86,7 +102,7 @@ export default function App() {
       setClients(data);
       setUseLocalFallback(false);
     } catch (error) {
-      console.warn("Backend API not reachable. Falling back to LocalStorage.", error);
+      console.warn('Backend API not reachable. Falling back to LocalStorage.', error);
       setUseLocalFallback(true);
       const localData = localStorage.getItem('aura_clients');
       if (localData) {
@@ -106,7 +122,7 @@ export default function App() {
       localStorage.setItem('aura_clients', JSON.stringify(newClients));
     }
     if (selectedClient) {
-      const updatedSelect = newClients.find(c => c.id === selectedClient.id);
+      const updatedSelect = newClients.find((c) => c.id === selectedClient.id);
       setSelectedClient(updatedSelect || null);
     }
   };
@@ -131,9 +147,9 @@ export default function App() {
             id: `t_${Date.now()}`,
             date: new Date().toISOString().split('T')[0],
             type: 'system',
-            description: 'Patient file created.'
-          }
-        ]
+            description: 'Patient file created.',
+          },
+        ],
       };
       if (newClient.value > 0) {
         newClient.payments.push({
@@ -142,24 +158,31 @@ export default function App() {
           amount: newClient.value,
           date: new Date().toISOString().split('T')[0],
           method: 'Cash',
-          status: 'Paid'
+          status: 'Paid',
         });
         newClient.timeline.unshift({
           id: `t_dep_${Date.now()}`,
           date: new Date().toISOString().split('T')[0],
           type: 'system',
-          description: `Initial payment deposit of ${newClient.value} DA logged.`
+          description: `Initial payment deposit of ${newClient.value} DA logged.`,
         });
       }
       updateClientsState([...clients, newClient]);
       setShowAddClient(false);
-      setNewClientData({ name: '', email: '', phone: '', company: '', status: 'Active', value: '' });
+      setNewClientData({
+        name: '',
+        email: '',
+        phone: '',
+        company: '',
+        status: 'Active',
+        value: '',
+      });
     } else {
       try {
         const response = await fetch(`${API_BASE}/clients`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(newClientData)
+          body: JSON.stringify(newClientData),
         });
         if (response.ok) {
           const created = await response.json();
@@ -167,22 +190,34 @@ export default function App() {
             await fetch(`${API_BASE}/clients/${created.id}/payments`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ amount: newClientData.value, date: new Date().toISOString().split('T')[0], method: 'Cash', status: 'Paid' })
+              body: JSON.stringify({
+                amount: newClientData.value,
+                date: new Date().toISOString().split('T')[0],
+                method: 'Cash',
+                status: 'Paid',
+              }),
             });
           }
           fetchClients();
           setShowAddClient(false);
-          setNewClientData({ name: '', email: '', phone: '', company: '', status: 'Active', value: '' });
+          setNewClientData({
+            name: '',
+            email: '',
+            phone: '',
+            company: '',
+            status: 'Active',
+            value: '',
+          });
         }
       } catch (err) {
-        console.error("Failed to create patient on server", err);
+        console.error('Failed to create patient on server', err);
       }
     }
   };
 
   const handleUpdateStatus = async (clientId, newStatus) => {
     if (useLocalFallback) {
-      const updated = clients.map(c => {
+      const updated = clients.map((c) => {
         if (c.id === clientId) {
           const originalStatus = c.status;
           return {
@@ -193,10 +228,10 @@ export default function App() {
                 id: `t_${Date.now()}`,
                 date: new Date().toISOString().split('T')[0],
                 type: 'system',
-                description: `Status changed from ${originalStatus} to ${newStatus}.`
+                description: `Status changed from ${originalStatus} to ${newStatus}.`,
               },
-              ...c.timeline
-            ]
+              ...c.timeline,
+            ],
           };
         }
         return c;
@@ -204,7 +239,7 @@ export default function App() {
       updateClientsState(updated);
     } else {
       try {
-        const client = clients.find(c => c.id === clientId);
+        const client = clients.find((c) => c.id === clientId);
         const response = await fetch(`${API_BASE}/clients/${clientId}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
@@ -215,18 +250,18 @@ export default function App() {
                 id: `t_${Date.now()}`,
                 date: new Date().toISOString().split('T')[0],
                 type: 'system',
-                description: `Status changed from ${client.status} to ${newStatus}.`
+                description: `Status changed from ${client.status} to ${newStatus}.`,
               },
-              ...client.timeline
-            ]
-          })
+              ...client.timeline,
+            ],
+          }),
         });
         if (response.ok) {
           const updatedClient = await response.json();
-          updateClientsState(clients.map(c => c.id === clientId ? updatedClient : c));
+          updateClientsState(clients.map((c) => (c.id === clientId ? updatedClient : c)));
         }
       } catch (err) {
-        console.error("Failed to update status", err);
+        console.error('Failed to update status', err);
       }
     }
   };
@@ -241,10 +276,10 @@ export default function App() {
         date: newProjectData.date,
         time: newProjectData.time || 'Flexible',
         treatment: newProjectData.treatment,
-        status: newProjectData.status
+        status: newProjectData.status,
       };
 
-      const updated = clients.map(c => {
+      const updated = clients.map((c) => {
         if (c.id === selectedClient.id) {
           const originalApts = c.appointments || [];
           return {
@@ -255,29 +290,39 @@ export default function App() {
                 id: `t_${Date.now()}`,
                 date: new Date().toISOString().split('T')[0],
                 type: 'system',
-                description: `Appointment scheduled: ${newProjectData.treatment} on ${newProjectData.date} at ${newProjectData.time || 'Flexible'}.`
+                description: `Appointment scheduled: ${newProjectData.treatment} on ${newProjectData.date} at ${newProjectData.time || 'Flexible'}.`,
               },
-              ...c.timeline
-            ]
+              ...c.timeline,
+            ],
           };
         }
         return c;
       });
       updateClientsState(updated);
       setShowAddProject(false);
-      setNewProjectData({ date: '', time: '', treatment: 'Cleaning & Checkup', status: 'Scheduled' });
+      setNewProjectData({
+        date: '',
+        time: '',
+        treatment: 'Cleaning & Checkup',
+        status: 'Scheduled',
+      });
     } else {
       try {
         const response = await fetch(`${API_BASE}/clients/${selectedClient.id}/appointments`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(newProjectData)
+          body: JSON.stringify(newProjectData),
         });
         if (response.ok) {
           const updatedClient = await response.json();
-          updateClientsState(clients.map(c => c.id === selectedClient.id ? updatedClient : c));
+          updateClientsState(clients.map((c) => (c.id === selectedClient.id ? updatedClient : c)));
           setShowAddProject(false);
-          setNewProjectData({ date: '', time: '', treatment: 'Cleaning & Checkup', status: 'Scheduled' });
+          setNewProjectData({
+            date: '',
+            time: '',
+            treatment: 'Cleaning & Checkup',
+            status: 'Scheduled',
+          });
         }
       } catch (err) {
         console.error(err);
@@ -296,13 +341,13 @@ export default function App() {
         amount: Number(newInvoiceData.amount),
         date: newInvoiceData.date || new Date().toISOString().split('T')[0],
         method: newInvoiceData.method,
-        status: newInvoiceData.status
+        status: newInvoiceData.status,
       };
 
-      const updated = clients.map(c => {
+      const updated = clients.map((c) => {
         if (c.id === selectedClient.id) {
           const originalPayments = c.payments || [];
-          const newTotalValue = newPay.status === 'Paid' ? (c.value + newPay.amount) : c.value;
+          const newTotalValue = newPay.status === 'Paid' ? c.value + newPay.amount : c.value;
           return {
             ...c,
             value: newTotalValue,
@@ -312,10 +357,10 @@ export default function App() {
                 id: `t_${Date.now()}`,
                 date: new Date().toISOString().split('T')[0],
                 type: 'system',
-                description: `Payment receipt ${newPay.receiptNumber} recorded for ${newPay.amount} DA (${newPay.status}) via ${newPay.method}.`
+                description: `Payment receipt ${newPay.receiptNumber} recorded for ${newPay.amount} DA (${newPay.status}) via ${newPay.method}.`,
               },
-              ...c.timeline
-            ]
+              ...c.timeline,
+            ],
           };
         }
         return c;
@@ -328,11 +373,11 @@ export default function App() {
         const response = await fetch(`${API_BASE}/clients/${selectedClient.id}/payments`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(newInvoiceData)
+          body: JSON.stringify(newInvoiceData),
         });
         if (response.ok) {
           const updatedClient = await response.json();
-          updateClientsState(clients.map(c => c.id === selectedClient.id ? updatedClient : c));
+          updateClientsState(clients.map((c) => (c.id === selectedClient.id ? updatedClient : c)));
           setShowAddInvoice(false);
           setNewInvoiceData({ amount: '', date: '', method: 'Card', status: 'Paid' });
         }
@@ -346,12 +391,13 @@ export default function App() {
     if (!window.confirm(t.confirmDeletePayment)) return;
 
     if (useLocalFallback) {
-      const updated = clients.map(c => {
+      const updated = clients.map((c) => {
         if (c.id === selectedClient.id) {
-          const targetPayment = c.payments.find(p => p.id === paymentId);
+          const targetPayment = c.payments.find((p) => p.id === paymentId);
           if (!targetPayment) return c;
-          const filteredPayments = c.payments.filter(p => p.id !== paymentId);
-          const newTotalValue = targetPayment.status === 'Paid' ? Math.max(0, c.value - targetPayment.amount) : c.value;
+          const filteredPayments = c.payments.filter((p) => p.id !== paymentId);
+          const newTotalValue =
+            targetPayment.status === 'Paid' ? Math.max(0, c.value - targetPayment.amount) : c.value;
           return {
             ...c,
             value: newTotalValue,
@@ -361,10 +407,10 @@ export default function App() {
                 id: `t_${Date.now()}`,
                 date: new Date().toISOString().split('T')[0],
                 type: 'system',
-                description: `Payment receipt ${targetPayment.receiptNumber} for ${targetPayment.amount} DA was deleted.`
+                description: `Payment receipt ${targetPayment.receiptNumber} for ${targetPayment.amount} DA was deleted.`,
               },
-              ...c.timeline
-            ]
+              ...c.timeline,
+            ],
           };
         }
         return c;
@@ -372,15 +418,18 @@ export default function App() {
       updateClientsState(updated);
     } else {
       try {
-        const response = await fetch(`${API_BASE}/clients/${selectedClient.id}/payments/${paymentId}`, {
-          method: 'DELETE'
-        });
+        const response = await fetch(
+          `${API_BASE}/clients/${selectedClient.id}/payments/${paymentId}`,
+          {
+            method: 'DELETE',
+          }
+        );
         if (response.ok) {
           const updatedClient = await response.json();
-          updateClientsState(clients.map(c => c.id === selectedClient.id ? updatedClient : c));
+          updateClientsState(clients.map((c) => (c.id === selectedClient.id ? updatedClient : c)));
         }
       } catch (err) {
-        console.error("Failed to delete payment from server", err);
+        console.error('Failed to delete payment from server', err);
       }
     }
   };
@@ -394,14 +443,14 @@ export default function App() {
         id: `t_${Date.now()}`,
         date: new Date().toISOString().split('T')[0],
         type: newLogData.type,
-        description: newLogData.description
+        description: newLogData.description,
       };
-      
-      const updated = clients.map(c => {
+
+      const updated = clients.map((c) => {
         if (c.id === selectedClient.id) {
           return {
             ...c,
-            timeline: [newEvent, ...c.timeline]
+            timeline: [newEvent, ...c.timeline],
           };
         }
         return c;
@@ -413,11 +462,11 @@ export default function App() {
         const response = await fetch(`${API_BASE}/clients/${selectedClient.id}/timeline`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(newLogData)
+          body: JSON.stringify(newLogData),
         });
         if (response.ok) {
           const updatedClient = await response.json();
-          updateClientsState(clients.map(c => c.id === selectedClient.id ? updatedClient : c));
+          updateClientsState(clients.map((c) => (c.id === selectedClient.id ? updatedClient : c)));
           setNewLogData({ type: 'note', description: '' });
         }
       } catch (err) {
@@ -430,17 +479,17 @@ export default function App() {
     if (!window.confirm(t.confirmDeletePatient)) return;
 
     if (useLocalFallback) {
-      const filtered = clients.filter(c => c.id !== clientId);
+      const filtered = clients.filter((c) => c.id !== clientId);
       updateClientsState(filtered);
       setCurrentView('clients');
       setSelectedClient(null);
     } else {
       try {
         const response = await fetch(`${API_BASE}/clients/${clientId}`, {
-          method: 'DELETE'
+          method: 'DELETE',
         });
         if (response.ok) {
-          setClients(clients.filter(c => c.id !== clientId));
+          setClients(clients.filter((c) => c.id !== clientId));
           setCurrentView('clients');
           setSelectedClient(null);
         }
@@ -449,20 +498,20 @@ export default function App() {
       }
     }
   };
-useEffect(() => {
-  console.log(currentView);
-}, [currentView]);
+  useEffect(() => {
+    console.log(currentView);
+  }, [currentView]);
   const computeStats = () => {
     let totalRevenue = 0;
     let pendingRevenue = 0;
     let activeAppointments = 0;
 
-    clients.forEach(client => {
+    clients.forEach((client) => {
       const appointmentsList = client.appointments || [];
       const paymentsList = client.payments || [];
-      
-      activeAppointments += appointmentsList.filter(a => a.status === 'Scheduled').length;
-      paymentsList.forEach(pay => {
+
+      activeAppointments += appointmentsList.filter((a) => a.status === 'Scheduled').length;
+      paymentsList.forEach((pay) => {
         if (pay.status === 'Paid') totalRevenue += pay.amount;
         else if (pay.status === 'Pending') pendingRevenue += pay.amount;
       });
@@ -470,139 +519,145 @@ useEffect(() => {
 
     return {
       totalClients: clients.length,
-      activeClients: clients.filter(c => c.status === 'Active').length,
-      inactiveClients: clients.filter(c => c.status === 'Inactive').length,
+      activeClients: clients.filter((c) => c.status === 'Active').length,
+      inactiveClients: clients.filter((c) => c.status === 'Inactive').length,
       totalRevenue,
       pendingRevenue,
-      activeAppointments
+      activeAppointments,
     };
   };
 
   const stats = computeStats();
 
-  const filteredClients = clients.filter(c => {
-    const matchesSearch = 
+  const filteredClients = clients.filter((c) => {
+    const matchesSearch =
       c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (c.email && c.email.toLowerCase().includes(searchQuery.toLowerCase()));
-    
+
     const matchesStatus = statusFilter === 'All' || c.status === statusFilter;
-    
+
     return matchesSearch && matchesStatus;
   });
 
   return (
     <div className="app-container">
-
-    <Sidebar 
-      currentView={currentView} 
-      setCurrentView={setCurrentView} 
-      setSelectedClient={setSelectedClient} 
-      theme={theme} 
-      setTheme={setTheme} 
-      lang={lang} 
-      setLang={setLang} 
-      t={t} 
-    />
+      <Sidebar
+        currentView={currentView}
+        setCurrentView={setCurrentView}
+        setSelectedClient={setSelectedClient}
+        theme={theme}
+        setTheme={setTheme}
+        lang={lang}
+        setLang={setLang}
+        t={t}
+      />
 
       {/* Main Panel */}
       <main className="main-content">
-        
         {/* Status Indicator */}
         {useLocalFallback && (
-          <div style={{
-            background: 'var(--warning-bg)', 
-            color: 'var(--warning)', 
-            padding: '10px 16px', 
-            borderRadius: '10px', 
-            marginBottom: '20px', 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: '8px',
-            fontSize: '0.85rem',
-            fontWeight: '600'
-          }}>
+          <div
+            style={{
+              background: 'var(--warning-bg)',
+              color: 'var(--warning)',
+              padding: '10px 16px',
+              borderRadius: '10px',
+              marginBottom: '20px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              fontSize: '0.85rem',
+              fontWeight: '600',
+            }}
+          >
             <AlertCircle size={16} />
             {t.fallbackWarning}
           </div>
         )}
-        
 
-          {/* Dashboard View */}
-  {currentView === "dashboard" && 
-     
-            <DashboardView stats={stats} clients={clients} setShowAddClient={setShowAddClient} setSelectedClient={setSelectedClient} setCurrentView={setCurrentView} t={t}
-            />
-       
-  }       
-       
+        {/* Dashboard View */}
+        {currentView === 'dashboard' && (
+          <DashboardView
+            stats={stats}
+            clients={clients}
+            setShowAddClient={setShowAddClient}
+            setSelectedClient={setSelectedClient}
+            setCurrentView={setCurrentView}
+            t={t}
+          />
+        )}
 
         {/* Directory View */}
-{
-  currentView === "clients" && <div>
-            
-<DirectoryView
-filteredClients={filteredClients}
-  searchQuery={searchQuery}
-  setSearchQuery={setSearchQuery}
-  statusFilter={statusFilter}
-  setStatusFilter={setStatusFilter}
-  setShowAddClient={setShowAddClient}
-  setSelectedClient={setSelectedClient}
-  setCurrentView={setCurrentView}
-  handleDeleteClient={handleDeleteClient}
-  t={t}
-/>
-      
+        {currentView === 'clients' && (
+          <div>
+            <DirectoryView
+              filteredClients={filteredClients}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              statusFilter={statusFilter}
+              setStatusFilter={setStatusFilter}
+              setShowAddClient={setShowAddClient}
+              setSelectedClient={setSelectedClient}
+              setCurrentView={setCurrentView}
+              handleDeleteClient={handleDeleteClient}
+              t={t}
+            />
 
-     
-        {showAddClient && (
-        <AddPatientModal
-          show={showAddClient}
-          onClose={() => setShowAddClient(false)}
-          newClientData={newClientData}
-          setNewClientData={setNewClientData}
-          handleCreateClient={handleCreateClient}
-          t={t}
-        />
-      )}
-      
-      
-
-      
-  </div>
-}
-{/* Modal: Add Payment */}
-      {showAddInvoice && (
-          <AddPaymentModal onClose={setShowAddInvoice} onAddPayment={handleAddPayment} setNewInvoiceData={setNewInvoiceData} setShowAddInvoice={setShowAddInvoice} t={t} handleAddPayment={handleAddPayment} newInvoiceData={newInvoiceData} showAddInvoice={showAddInvoice} />
-      )}
-{showAddProject && (
-        <AddAppointmentModal
-         show={showAddProject}
-  onClose={setShowAddProject}
-  newProjectData={newProjectData}
-  setNewProjectData={setNewProjectData}
-  handleAddAppointment={handleAddAppointment}
-  t={t}
-        />
-  
-      )}
-           {currentView == "details" && (<PatientDetailView selectedClient={selectedClient}
-  setSelectedClient={setSelectedClient}
-  setCurrentView={setCurrentView}
-  handleUpdateStatus={handleUpdateStatus}
-  handleDeleteClient={handleDeleteClient}
-   detailTab={detailTab}
-    setDetailTab={setDetailTab}
-      setShowAddProject={setShowAddProject}
-        setShowAddInvoice={setShowAddInvoice}
-          handleDeletePayment={handleDeletePayment}
+            {showAddClient && (
+              <AddPatientModal
+                show={showAddClient}
+                onClose={() => setShowAddClient(false)}
+                newClientData={newClientData}
+                setNewClientData={setNewClientData}
+                handleCreateClient={handleCreateClient}
+                t={t}
+              />
+            )}
+          </div>
+        )}
+        {/* Modal: Add Payment */}
+        {showAddInvoice && (
+          <AddPaymentModal
+            onClose={setShowAddInvoice}
+            onAddPayment={handleAddPayment}
+            setNewInvoiceData={setNewInvoiceData}
+            setShowAddInvoice={setShowAddInvoice}
+            t={t}
+            handleAddPayment={handleAddPayment}
+            newInvoiceData={newInvoiceData}
+            showAddInvoice={showAddInvoice}
+          />
+        )}
+        {showAddProject && (
+          <AddAppointmentModal
+            show={showAddProject}
+            onClose={setShowAddProject}
+            newProjectData={newProjectData}
+            setNewProjectData={setNewProjectData}
+            handleAddAppointment={handleAddAppointment}
+            t={t}
+          />
+        )}
+        {currentView == 'details' && (
+          <PatientDetailView
+            selectedClient={selectedClient}
+            setSelectedClient={setSelectedClient}
+            setCurrentView={setCurrentView}
+            handleUpdateStatus={handleUpdateStatus}
+            handleDeleteClient={handleDeleteClient}
+            detailTab={detailTab}
+            setDetailTab={setDetailTab}
+            setShowAddProject={setShowAddProject}
+            setShowAddInvoice={setShowAddInvoice}
+            handleDeletePayment={handleDeletePayment}
             handleAddLog={handleAddLog}
-              newLogData={newLogData}
-                  setNewLogData={setNewLogData}
-                 t={t}
-                  lang={lang} />)}
-   </main> 
+            newLogData={newLogData}
+            setNewLogData={setNewLogData}
+            t={t}
+            lang={lang}
+          />
+        )}
+      </main>
     </div>
-   
   );
-};
+}

@@ -11,19 +11,20 @@ export default function Sidebar({ currentView, setCurrentView, setSelectedClient
 
       <nav className="nav-links">
         <div 
-          className={`nav-item ${currentView === 'dashboard' ? 'active' : ''}`}
-          onClick={() => { setCurrentView('dashboard'); setSelectedClient(null); }}
-        >
-          <LayoutDashboard size={20} />
-          <span>{t.dashboard}</span>
-        </div>
-        <div 
           className={`nav-item ${currentView === 'clients' ? 'active' : ''}`}
           onClick={() => { setCurrentView('clients'); setSelectedClient(null); }}
         >
           <Users size={20} />
           <span>{t.patients}</span>
         </div>
+        <div 
+          className={`nav-item ${currentView === 'dashboard' ? 'active' : ''}`}
+          onClick={() => { setCurrentView('dashboard'); setSelectedClient(null); }}
+        >
+          <LayoutDashboard size={20} />
+          <span>{t.dashboard}</span>
+        </div>
+        
       </nav>
 
       <div className="theme-toggle-container" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>

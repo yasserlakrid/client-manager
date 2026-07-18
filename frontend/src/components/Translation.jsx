@@ -162,7 +162,7 @@
         privateCash: "Privé/Espèces",
         overviewTitle: "Tableau de Bord Dentiste",
         overviewSubtitle: "Bienvenue sur Aura Dental CRM. Gérez les dossiers, plannings et facturations.",
-        patientPortfolioTitle: "Portefeuille Patients",
+        patientPortfolioTitle: "Patients",
         patientPortfolioSubtitle: "Enregistrez de nouveaux patients et gérez les dossiers cliniques.",
         patientFileSubtitle: "Fiche clinique, calendrier des visites et historique financier.",
         billingLedger: "Historique des Transactions",
