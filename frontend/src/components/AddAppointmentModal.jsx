@@ -16,7 +16,7 @@ export default function AddAppointmentModal({
       <div className="glass-card modal-container" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h3>{t.scheduleVisit}</h3>
-          <button className="btn-close" onClick={onClose}><X size={18} /></button>
+          <button className="btn-close" onClick={() => onClose(false)}><X size={18} /></button>
         </div>
         <form onSubmit={handleAddAppointment}>
           <div className="modal-body">
@@ -71,7 +71,7 @@ export default function AddAppointmentModal({
             </div>
           </div>
           <div className="modal-footer" style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '24px' }}>
-            <button type="button" className="btn btn-secondary" onClick={onClose}>{t.cancel}</button>
+            <button type="button" className="btn btn-secondary" onClick={() => onClose(false)} >{t.cancel}</button>
             <button type="submit" className="btn btn-primary">{t.scheduleVisit}</button>
           </div>
         </form>

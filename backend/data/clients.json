@@ -1,24 +1,5 @@
 [
   {
-    "id": "c_1784304021330",
-    "name": "yasser",
-    "email": "",
-    "phone": "",
-    "company": "",
-    "status": "Active",
-    "value": 0,
-    "appointments": [],
-    "payments": [],
-    "timeline": [
-      {
-        "id": "t_1784304021330",
-        "date": "2026-07-17",
-        "type": "system",
-        "description": "Patient file created."
-      }
-    ]
-  },
-  {
     "id": "c_1784330638340",
     "name": "yasser",
     "email": "",
@@ -27,8 +8,23 @@
     "status": "Active",
     "value": 0,
     "appointments": [],
-    "payments": [],
+    "payments": [
+      {
+        "id": "pay_1784374044896",
+        "receiptNumber": "RCPT-766621",
+        "amount": 150,
+        "date": "2026-07-18",
+        "method": "Cash",
+        "status": "Pending"
+      }
+    ],
     "timeline": [
+      {
+        "id": "t_1784374044897",
+        "date": "2026-07-18",
+        "type": "system",
+        "description": "Payment of $150 added via Cash (Pending)."
+      },
       {
         "id": "t_1784330638340",
         "date": "2026-07-17",

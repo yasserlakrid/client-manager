@@ -18,6 +18,7 @@ export default function PatientDetailView({
   t,
   lang
 }) {
+  
   return (
     <>
     
@@ -110,7 +111,7 @@ export default function PatientDetailView({
                   <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                       <h4 style={{ fontSize: '1.1rem' }}>{t.appointmentSchedules}</h4>
-                      <button className="btn btn-primary" style={{ padding: '8px 14px', fontSize: '0.85rem' }} onClick={() => setShowAddProject(true)}>
+                      <button className="btn btn-primary" style={{ padding: '8px 14px', fontSize: '0.85rem' }} onClick={() => setShowAddProject(prev => !prev)}>//testing
                         <Plus size={16} /> {t.newAppointmentBtn}
                       </button>
                     </div>

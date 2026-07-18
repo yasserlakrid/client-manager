@@ -9,9 +9,7 @@ export default function DashboardView({ stats, clients, setShowAddClient, setSel
           <h1>{t.overviewTitle}</h1>
           <p>{t.overviewSubtitle}</p>
         </div>
-        <button className="btn btn-primary" onClick={() => setShowAddClient(true)}>
-          <Plus size={18} /> {t.registerPatient}
-        </button>
+        
       </div>
 
       {/* Metrics cards grid */}
