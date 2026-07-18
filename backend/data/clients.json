@@ -1,36 +1,65 @@
 [
   {
-    "id": "c_1784375299849",
+    "id": "c_1784378450489",
     "name": "yasser",
     "email": "",
     "phone": "",
     "company": "",
     "status": "Active",
-    "value": 100,
+    "value": 3200,
     "appointments": [],
     "payments": [
       {
-        "id": "pay_1784375314291",
-        "receiptNumber": "RCPT-251128",
-        "amount": 100,
+        "id": "pay_1784378462613",
+        "receiptNumber": "RCPT-522134",
+        "amount": 1000,
         "date": "2026-07-18",
+        "method": "Card",
+        "status": "Paid"
+      },
+      {
+        "id": "pay_1784378470539",
+        "receiptNumber": "RCPT-217681",
+        "amount": 1200,
+        "date": "2026-07-19",
+        "method": "Card",
+        "status": "Paid"
+      },
+      {
+        "id": "pay_1784378478105",
+        "receiptNumber": "RCPT-446685",
+        "amount": 1000,
+        "date": "2026-07-20",
         "method": "Card",
         "status": "Paid"
       }
     ],
     "timeline": [
       {
-        "id": "t_1784375314291",
+        "id": "t_1784378478105",
         "date": "2026-07-18",
         "type": "system",
-        "description": "Payment of $100 added via Card (Paid)."
+        "description": "Payment of $1000 added via Card (Paid)."
       },
       {
-        "id": "t_1784375299850",
+        "id": "t_1784378470540",
+        "date": "2026-07-18",
+        "type": "system",
+        "description": "Payment of $1200 added via Card (Paid)."
+      },
+      {
+        "id": "t_1784378462613",
+        "date": "2026-07-18",
+        "type": "system",
+        "description": "Payment of $1000 added via Card (Paid)."
+      },
+      {
+        "id": "t_1784378450489",
         "date": "2026-07-18",
         "type": "system",
         "description": "Patient file created."
       }
-    ]
+    ],
+    "totalPayment": 1000
   }
 ]

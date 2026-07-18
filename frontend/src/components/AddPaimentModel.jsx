@@ -31,23 +31,12 @@ function AddPaymentModal({ onClose, onAddPayment ,setNewInvoiceData , setShowAdd
                   value={newInvoiceData.method}
                   onChange={(e) => setNewInvoiceData({ ...newInvoiceData, method: e.target.value })}
                 >
-                  <option value="Card">{t.card}</option>
+                  
                   <option value="Cash">{t.cash}</option>
-                  <option value="Insurance Claim">{t.insuranceClaim}</option>
-                  <option value="Bank Transfer">{t.bankTransfer}</option>
+                
                 </select>
               </div>
-              <div className="form-group">
-                <label>{t.paymentStatus}</label>
-                <select 
-                  className="form-control"
-                  value={newInvoiceData.status}
-                  onChange={(e) => setNewInvoiceData({ ...newInvoiceData, status: e.target.value })}
-                >
-                  <option value="Paid">{t.paidCompleted}</option>
-                  <option value="Pending">{t.pendingReview}</option>
-                </select>
-              </div>
+             
 
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '24px' }}>
                 <button type="button" className="btn btn-secondary" onClick={() => setShowAddInvoice(false)}>{t.cancel}</button>

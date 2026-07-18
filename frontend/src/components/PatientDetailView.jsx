@@ -63,6 +63,10 @@ export default function PatientDetailView({
                     <span className="profile-detail-val">{selectedClient.email || (lang === 'en' ? 'Not recorded' : 'Non renseigné')}</span>
                   </div>
                   <div className="profile-detail-item">
+                    <span className="profile-detail-label">{t.totalPayment}</span>
+                    <span className="profile-detail-val">{selectedClient.totalPayment.toLocaleString()} DA</span>
+                  </div>
+                  <div className="profile-detail-item">
                     <span className="profile-detail-label">Phone</span>
                     <span className="profile-detail-val">{selectedClient.phone || 'Not recorded'}</span>
                   </div>

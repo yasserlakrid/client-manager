@@ -34,6 +34,17 @@ export default function AddPatientModal({
               />
             </div>
             <div className="form-group">
+                <label>{t.totalPayment}</label>
+                <input 
+                  type="number" 
+                  className="form-control" 
+                  required
+                  placeholder="e.g. 5000"
+                  value={newClientData.totalPayment}
+                  onChange={(e) => setNewClientData({ ...newClientData, totalPayment: e.target.value })}
+                />
+              </div>
+            <div className="form-group">
               <label>{t.emailAddress}</label>
               <input 
                 type="email" 

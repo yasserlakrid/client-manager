@@ -84,7 +84,9 @@
         clinicalRecordHeader: "Patient Clinical Record",
         newPaymentBtn: "Record Payment",
         newAppointmentBtn: "Schedule Appointment",
-        languageLabel: "Language / Langue"
+        languageLabel: "Language / Langue",
+        totalPayment: 'Total Payment (DA)',
+        
       },
       fr: {
         dashboard: "Tableau de Bord",
@@ -170,7 +172,9 @@
         clinicalRecordHeader: "Dossier Clinique du Patient",
         newPaymentBtn: "Ajouter un Paiement",
         newAppointmentBtn: "Nouveau Rendez-vous",
-        languageLabel: "Langue / Language"
+        languageLabel: "Langue / Language",
+        totalPayment: "Paiment total (DA)",
+        
       }
     };
     

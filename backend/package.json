@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "predev": "kill -9 $(lsof -ti:5001) 2>/dev/null; true"
   },
   "dependencies": {
     "cors": "^2.8.5",

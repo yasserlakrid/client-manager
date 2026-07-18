@@ -1,5 +1,5 @@
 import React from 'react';
-import { HeartPulse, LayoutDashboard, Users, Languages, Sun, Moon } from 'lucide-react';
+import { HeartPulse, LayoutDashboard, Users, Languages, Sun, Moon, TrendingUp } from 'lucide-react';
 
 export default function Sidebar({ currentView, setCurrentView, setSelectedClient, theme, setTheme, lang, setLang, t }) {
   return (
@@ -24,7 +24,14 @@ export default function Sidebar({ currentView, setCurrentView, setSelectedClient
           <LayoutDashboard size={20} />
           <span>{t.dashboard}</span>
         </div>
-        
+        <div
+          className={`nav-item ${currentView === 'finance' ? 'active' : ''}`}
+          onClick={() => { setCurrentView('finance'); setSelectedClient(null); }}
+        >
+          <TrendingUp size={20} />
+          <span>Finance</span>
+        </div>
+
       </nav>
 
       <div className="theme-toggle-container" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>

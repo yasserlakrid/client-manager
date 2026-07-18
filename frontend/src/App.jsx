@@ -31,6 +31,7 @@ import AddAppointmentModal from './components/AddAppointmentModal';
 import AddPatientModal from './components/AddPatientModal';
 import TRANSLATIONS from './components/Translation';
 import AddPaymentModal from './components/AddPaimentModel';
+import FinanceView from './components/FinanceView';
 
 const API_BASE = '/api';
 
@@ -39,7 +40,8 @@ const DEFAULT_CLIENTS = [];
 export default function App() {
   const [theme, setTheme] = useState('dark');
   const [lang, setLang] = useState('en');
-  const [currentView, setCurrentView] = useState('clients'); // 'dashboard' | 'clients' | 'details'
+  const [currentView, setCurrentView] = useState('clients'); // 'dashboard' | 'clients' | 'details' | 'finance'
+  const finance = currentView === 'finance'; // boolean switch for Finance section
   const [clients, setClients] = useState([]);
   const [selectedClient, setSelectedClient] = useState(null);
   const [useLocalFallback, setUseLocalFallback] = useState(false);
@@ -62,6 +64,7 @@ export default function App() {
     company: '',
     status: 'Active',
     value: '',
+    totalPayment: '',
   });
   const [newProjectData, setNewProjectData] = useState({
     date: '',
@@ -150,6 +153,7 @@ export default function App() {
             description: 'Patient file created.',
           },
         ],
+        totalPayment: Number(newClientData.value) || 0,
       };
       if (newClient.value > 0) {
         newClient.payments.push({
@@ -657,6 +661,8 @@ export default function App() {
             lang={lang}
           />
         )}
+        {/* Finance View */}
+        {finance && <FinanceView clients={clients} t={t} />}
       </main>
     </div>
   );

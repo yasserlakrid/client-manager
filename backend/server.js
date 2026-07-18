@@ -61,7 +61,7 @@ app.get('/api/clients/:id', async (req, res) => {
 // POST create client (patient)
 app.post('/api/clients', async (req, res) => {
   try {
-    const { name, email, phone, company, status, value } = req.body;
+    const { name, email, phone, company, status, value, totalPayment } = req.body;
     if (!name) {
       return res.status(400).json({ error: 'Name is required' });
     }
@@ -84,7 +84,8 @@ app.post('/api/clients', async (req, res) => {
           type: 'system',
           description: 'Patient file created.'
         }
-      ]
+      ],
+      totalPayment: Number(totalPayment) || 0,
     };
 
     clients.push(newClient);
