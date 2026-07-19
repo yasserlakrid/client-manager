@@ -133,7 +133,7 @@ function StatCard({ icon: Icon, label, value, sub, color }) {
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function FinanceView({ clients, t }) {
-  const [mode, setMode] = useState('months'); // 'days' | 'weeks' | 'months'
+  const [mode, setMode] = useState('days'); // 'days' | 'weeks' | 'months'
   const [chartType, setChartType] = useState('area'); // 'area' | 'bar'
 
   const data = useMemo(() => aggregatePayments(clients, mode), [clients, mode]);
@@ -168,9 +168,14 @@ export default function FinanceView({ clients, t }) {
   const avgPerPayment = totalPayments > 0 ? Math.round(totalRevenue / totalPayments) : 0;
 
   const TAB = [
-    { key: 'days', label: 'Daily' },
-    { key: 'weeks', label: 'Weekly' },
-    { key: 'months', label: 'Monthly' },
+    { key: 'days', label: t.daily },
+    { key: 'weeks', label: t.weekly },
+    { key: 'months', label: t.monthly },
+  ];
+
+  const CHART_TYPES = [
+    { key: 'area', label: t.area },
+    { key: 'bar', label: t.bar },
   ];
 
   return (
@@ -185,10 +190,10 @@ export default function FinanceView({ clients, t }) {
             marginBottom: '4px',
           }}
         >
-          Finance Overview
+          {t.financeOverview}
         </h2>
         <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-          Payment revenue tracked across all patients
+          {t.financeSubtitle}
         </p>
       </div>
 
@@ -203,30 +208,30 @@ export default function FinanceView({ clients, t }) {
       >
         <StatCard
           icon={DollarSign}
-          label="Total Revenue"
+          label={t.totalRevenue}
           value={`${totalRevenue.toLocaleString()} DA`}
-          sub="All paid invoices"
+          sub={t.allPaidInvoices}
           color="#6366f1"
         />
         <StatCard
           icon={TrendingUp}
-          label="Avg per Payment"
+          label={t.avgPerPayment}
           value={`${avgPerPayment.toLocaleString()} DA`}
-          sub={`${totalPayments} payments total`}
+          sub={`${totalPayments} ${t.paymentsTotal}`}
           color="#10b981"
         />
         <StatCard
           icon={Calendar}
-          label="Pending Revenue"
+          label={t.pendingRevenue}
           value={`${pendingRevenue.toLocaleString()} DA`}
-          sub="Awaiting collection"
+          sub={t.awaitingCollection}
           color="#f59e0b"
         />
         <StatCard
           icon={BarChart2}
-          label="Active Patients"
+          label={t.activePatients}
           value={clients.filter((c) => c.status === 'Active').length}
-          sub={`of ${clients.length} total`}
+          sub={`${t.ofTotal} ${clients.length} ${t.total}`}
           color="#ec4899"
         />
       </div>
@@ -252,7 +257,7 @@ export default function FinanceView({ clients, t }) {
           }}
         >
           <h3 style={{ color: 'var(--text-primary)', fontWeight: '700', fontSize: '1rem' }}>
-            Payment Timeline
+            {t.paymentTimeline}
           </h3>
 
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -314,7 +319,7 @@ export default function FinanceView({ clients, t }) {
                     textTransform: 'capitalize',
                   }}
                 >
-                  {type}
+                  {type === 'area' ? t.area : t.bar}
                 </button>
               ))}
             </div>
@@ -333,7 +338,7 @@ export default function FinanceView({ clients, t }) {
               fontSize: '0.9rem',
             }}
           >
-            No payment data available yet. Add payments to patients to see the timeline.
+            {t.noPaymentData}
           </div>
         ) : (
           <ResponsiveContainer width="100%" height={320}>
@@ -412,7 +417,7 @@ export default function FinanceView({ clients, t }) {
               marginBottom: '16px',
             }}
           >
-            Per-Patient Revenue
+            {t.perPatientRevenue}
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {[...clients]

@@ -28,7 +28,7 @@ export default function AddPatientModal({
                 type="text" 
                 className="form-control" 
                 required
-                placeholder="Clark Kent"
+                placeholder="Yasser lakrid"
                 value={newClientData.name}
                 onChange={(e) => setNewClientData({ ...newClientData, name: e.target.value })}
               />
@@ -49,7 +49,7 @@ export default function AddPatientModal({
               <input 
                 type="email" 
                 className="form-control" 
-                placeholder="clark@dailyplanet.com"
+                placeholder="py_lakrid@esi.dz"
                 value={newClientData.email}
                 onChange={(e) => setNewClientData({ ...newClientData, email: e.target.value })}
               />

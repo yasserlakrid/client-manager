@@ -181,7 +181,7 @@ export default function PatientDetailView({
                             <th>{t.receiptNo}</th>
                             <th>{t.transactionDate}</th>
                             <th>{t.amount}</th>
-                            <th>{t.method}</th>
+                            
                             <th>{t.status}</th>
                             <th style={{ textAlign: 'right' }}>{t.actions}</th>
                           </tr>
@@ -192,9 +192,7 @@ export default function PatientDetailView({
                               <td style={{ fontWeight: '600' }}>{inv.receiptNumber}</td>
                               <td style={{ color: 'var(--text-secondary)' }}>{inv.date}</td>
                               <td style={{ fontWeight: '500' }}>{inv.amount.toLocaleString()} DA</td>
-                              <td>
-                                {inv.method === 'Card' ? t.card : inv.method === 'Cash' ? t.cash : inv.method === 'Insurance Claim' ? t.insuranceClaim : t.bankTransfer}
-                              </td>
+                              
                               <td>
                                 <span className={`badge badge-${inv.status.toLowerCase()}`}>
                                   {inv.status === 'Paid' ? t.paidCompleted : t.pendingReview}

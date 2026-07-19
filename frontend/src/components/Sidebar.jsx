@@ -6,7 +6,7 @@ export default function Sidebar({ currentView, setCurrentView, setSelectedClient
     <aside className="sidebar">
       <div className="logo-container">
         <HeartPulse size={28} color="#6366f1" />
-        <span className="logo-text">Aura Dental</span>
+        <span className="logo-text">Lakrid Dental</span>
       </div>
 
       <nav className="nav-links">
@@ -29,7 +29,7 @@ export default function Sidebar({ currentView, setCurrentView, setSelectedClient
           onClick={() => { setCurrentView('finance'); setSelectedClient(null); }}
         >
           <TrendingUp size={20} />
-          <span>Finance</span>
+          <span>{t.financeNav}</span>
         </div>
 
       </nav>

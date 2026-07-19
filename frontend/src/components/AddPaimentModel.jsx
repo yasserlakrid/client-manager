@@ -19,23 +19,13 @@ function AddPaymentModal({ onClose, onAddPayment ,setNewInvoiceData , setShowAdd
                 <label>{t.transactionDate}</label>
                 <input 
                   type="date" 
+                  required
                   className="form-control" 
                   value={newInvoiceData.date}
                   onChange={(e) => setNewInvoiceData({ ...newInvoiceData, date: e.target.value })}
                 />
               </div>
-              <div className="form-group">
-                <label>{t.method}</label>
-                <select 
-                  className="form-control"
-                  value={newInvoiceData.method}
-                  onChange={(e) => setNewInvoiceData({ ...newInvoiceData, method: e.target.value })}
-                >
-                  
-                  <option value="Cash">{t.cash}</option>
-                
-                </select>
-              </div>
+              
              
 
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '24px' }}>

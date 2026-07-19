@@ -185,7 +185,7 @@ app.post('/api/clients/:id/appointments', async (req, res) => {
 // POST add payment
 app.post('/api/clients/:id/payments', async (req, res) => {
   try {
-    const { amount, date, method, status } = req.body;
+    const { amount, date,  status } = req.body;
     if (!amount) {
       return res.status(400).json({ error: 'Payment amount is required' });
     }
@@ -201,7 +201,7 @@ app.post('/api/clients/:id/payments', async (req, res) => {
       receiptNumber: `RCPT-${Math.floor(100000 + Math.random() * 900000)}`,
       amount: Number(amount),
       date: date || new Date().toISOString().split('T')[0],
-      method: method || 'Card',
+      
       status: status || 'Paid'
     };
 
@@ -218,7 +218,7 @@ app.post('/api/clients/:id/payments', async (req, res) => {
       id: `t_${Date.now()}`,
       date: new Date().toISOString().split('T')[0],
       type: 'system',
-      description: `Payment of $${amount} added via ${method} (${newPayment.status}).`
+      description: `Payment of $${amount} added (${newPayment.status}).`
     });
 
     await writeClients(clients);
