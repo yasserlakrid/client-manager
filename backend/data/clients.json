@@ -1,0 +1,185 @@
+[
+  {
+    "id": "c_1784379878583",
+    "name": "yasser",
+    "email": "",
+    "phone": "",
+    "company": "",
+    "status": "Active",
+    "value": 1200,
+    "appointments": [
+      {
+        "id": "apt_1784379923063",
+        "date": "2026-07-18",
+        "time": "Flexible",
+        "treatment": "Cleaning & Checkup",
+        "status": "Scheduled"
+      }
+    ],
+    "payments": [
+      {
+        "id": "pay_1784379897780",
+        "receiptNumber": "RCPT-619603",
+        "amount": 1000,
+        "date": "2026-07-18",
+        "status": "Paid"
+      },
+      {
+        "id": "pay_1784379907302",
+        "receiptNumber": "RCPT-978459",
+        "amount": 200,
+        "date": "2026-07-18",
+        "status": "Paid"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "t_1784379923063",
+        "date": "2026-07-18",
+        "type": "system",
+        "description": "Appointment scheduled for 2026-07-18 at  (Cleaning & Checkup)."
+      },
+      {
+        "id": "t_1784379907302",
+        "date": "2026-07-18",
+        "type": "system",
+        "description": "Payment of $200 added (Paid)."
+      },
+      {
+        "id": "t_1784379897780",
+        "date": "2026-07-18",
+        "type": "system",
+        "description": "Payment of $1000 added (Paid)."
+      },
+      {
+        "id": "t_1784379878583",
+        "date": "2026-07-18",
+        "type": "system",
+        "description": "Patient file created."
+      }
+    ],
+    "totalPayment": 12000
+  },
+  {
+    "id": "c_1784379937128",
+    "name": "youcef",
+    "email": "",
+    "phone": "",
+    "company": "",
+    "status": "Active",
+    "value": 1500,
+    "appointments": [
+      {
+        "id": "apt_1784379975634",
+        "date": "2026-07-19",
+        "time": "Flexible",
+        "treatment": "Cleaning & Checkup",
+        "status": "Scheduled"
+      }
+    ],
+    "payments": [
+      {
+        "id": "pay_1784379988119",
+        "receiptNumber": "RCPT-326391",
+        "amount": 500,
+        "date": "2026-07-20",
+        "status": "Paid"
+      },
+      {
+        "id": "pay_1784379997244",
+        "receiptNumber": "RCPT-440941",
+        "amount": 1000,
+        "date": "2026-07-22",
+        "status": "Paid"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "t_1784379997244",
+        "date": "2026-07-18",
+        "type": "system",
+        "description": "Payment of $1000 added (Paid)."
+      },
+      {
+        "id": "t_1784379988119",
+        "date": "2026-07-18",
+        "type": "system",
+        "description": "Payment of $500 added (Paid)."
+      },
+      {
+        "id": "t_1784379975634",
+        "date": "2026-07-18",
+        "type": "system",
+        "description": "Appointment scheduled for 2026-07-19 at  (Cleaning & Checkup)."
+      },
+      {
+        "id": "t_1784379937128",
+        "date": "2026-07-18",
+        "type": "system",
+        "description": "Patient file created."
+      }
+    ],
+    "totalPayment": 1000
+  },
+  {
+    "id": "c_1784380034098",
+    "name": "ishak",
+    "email": "",
+    "phone": "",
+    "company": "",
+    "status": "Active",
+    "value": 1200,
+    "appointments": [
+      {
+        "id": "apt_1784380071744",
+        "date": "2026-07-20",
+        "time": "Flexible",
+        "treatment": "Cleaning & Checkup",
+        "status": "Scheduled"
+      }
+    ],
+    "payments": [
+      {
+        "id": "pay_1784380044054",
+        "receiptNumber": "RCPT-567803",
+        "amount": 200,
+        "date": "2026-07-19",
+        "status": "Paid"
+      },
+      {
+        "id": "pay_1784380053593",
+        "receiptNumber": "RCPT-620258",
+        "amount": 1000,
+        "date": "2026-07-22",
+        "status": "Paid"
+      }
+    ],
+    "timeline": [
+      {
+        "id": "t_1784380071744",
+        "date": "2026-07-18",
+        "type": "system",
+        "description": "Appointment scheduled for 2026-07-20 at  (Cleaning & Checkup)."
+      },
+      {
+        "id": "t_1784380053593",
+        "date": "2026-07-18",
+        "type": "system",
+        "description": "Payment of $1000 added (Paid)."
+      },
+      {
+        "id": "t_1784380044054",
+        "date": "2026-07-18",
+        "type": "system",
+        "description": "Payment of $200 added (Paid)."
+      },
+      {
+        "id": "t_1784380034098",
+        "date": "2026-07-18",
+        "type": "system",
+        "description": "Patient file created."
+      }
+    ],
+    "totalPayment": 2000
+  }
+]
