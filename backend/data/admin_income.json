@@ -1,0 +1,21 @@
+{
+  "acc_1784427913394": {
+    "acc_1784428105586": {
+      "coworkerName": "youcef",
+      "coworkerEmail": "youcef@gmail.com",
+      "totalIncome": 2000,
+      "payments": [
+        {
+          "id": "inc_1784428382320",
+          "date": "2026-07-19",
+          "amount": 2000,
+          "clientId": "c_1784428201856",
+          "clientName": "yasser",
+          "receiptNumber": "RCPT-216418",
+          "paymentId": "pay_1784428382310",
+          "recordedAt": "2026-07-19T02:33:02.320Z"
+        }
+      ]
+    }
+  }
+}

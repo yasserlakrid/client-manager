@@ -1,0 +1,34 @@
+[
+  {
+    "id": "acc_1784427623334",
+    "name": "Admin User",
+    "email": "admin@test.com",
+    "password": "ecd71870d1963316a97e3ac3408c9835ad8cf0f3c1bc703527c30265534f75ae",
+    "role": "admin",
+    "createdAt": "2026-07-19T02:20:23.335Z"
+  },
+  {
+    "id": "acc_1784427623362",
+    "name": "Coworker One",
+    "email": "coworker@test.com",
+    "password": "ecd71870d1963316a97e3ac3408c9835ad8cf0f3c1bc703527c30265534f75ae",
+    "role": "coworker",
+    "createdAt": "2026-07-19T02:20:23.362Z"
+  },
+  {
+    "id": "acc_1784427913394",
+    "name": "yasser",
+    "email": "yasser@gmail.com",
+    "password": "31eab97fa5910e78c20eac4ba2ae6d6b0c9c21134d24af074431ff436b392e8c",
+    "role": "admin",
+    "createdAt": "2026-07-19T02:25:13.395Z"
+  },
+  {
+    "id": "acc_1784428105586",
+    "name": "youcef",
+    "email": "youcef@gmail.com",
+    "password": "31eab97fa5910e78c20eac4ba2ae6d6b0c9c21134d24af074431ff436b392e8c",
+    "role": "coworker",
+    "createdAt": "2026-07-19T02:28:25.586Z"
+  }
+]
