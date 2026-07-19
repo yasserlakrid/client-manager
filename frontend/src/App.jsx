@@ -24,17 +24,17 @@ import {
 } from 'lucide-react';
 
 import Sidebar from './components/Sidebar';
-import DashboardView from './components/DashboardView';
-import DirectoryView from './components/DirectoryView';
-import PatientDetailView from './components/PatientDetailView';
+import DashboardView from './pages/DashboardView';
+import DirectoryView from './pages/DirectoryView';
+import PatientDetailView from './pages/PatientDetailView';
 import AddAppointmentModal from './components/AddAppointmentModal';
 import AddPatientModal from './components/AddPatientModal';
 import TRANSLATIONS from './components/Translation';
 import AddPaymentModal from './components/AddPaimentModel';
-import FinanceView from './components/FinanceView';
-import AuthPage from './components/AuthPage';
-import AdminNetworkView from './components/AdminNetworkView';
-import AdminIncomeView from './components/AdminIncomeView';
+import FinanceView from './pages/FinanceView';
+import AuthPage from './pages/AuthPage';
+import AdminNetworkView from './pages/AdminNetworkView';
+import AdminIncomeView from './pages/AdminIncomeView';
 import InvitesPanel from './components/InvitesPanel';
 import { getStoredAccount, clearAccount, apiFetch } from './api';
 
