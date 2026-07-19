@@ -32,15 +32,19 @@ import AddPatientModal from './components/AddPatientModal';
 import TRANSLATIONS from './components/Translation';
 import AddPaymentModal from './components/AddPaimentModel';
 import FinanceView from './components/FinanceView';
-
-const API_BASE = '/api';
+import AuthPage from './components/AuthPage';
+import AdminNetworkView from './components/AdminNetworkView';
+import AdminIncomeView from './components/AdminIncomeView';
+import InvitesPanel from './components/InvitesPanel';
+import { getStoredAccount, clearAccount, apiFetch } from './api';
 
 const DEFAULT_CLIENTS = [];
 
 export default function App() {
   const [theme, setTheme] = useState('dark');
   const [lang, setLang] = useState('en');
-  const [currentView, setCurrentView] = useState('clients'); // 'dashboard' | 'clients' | 'details' | 'finance'
+  const [account, setAccount] = useState(() => getStoredAccount());
+  const [currentView, setCurrentView] = useState('clients');
   const finance = currentView === 'finance'; // boolean switch for Finance section
   const [clients, setClients] = useState([]);
   const [selectedClient, setSelectedClient] = useState(null);
@@ -91,15 +95,28 @@ export default function App() {
     document.body.setAttribute('data-theme', theme);
   }, [theme]);
 
-  // Load clients data on startup
+  // Load clients data when authenticated
   useEffect(() => {
-    fetchClients();
-  }, []);
+    if (account) fetchClients();
+  }, [account]);
+
+  const handleAuthSuccess = (loggedInAccount) => {
+    setAccount(loggedInAccount);
+  };
+
+  const handleLogout = () => {
+    clearAccount();
+    setAccount(null);
+    setClients([]);
+    setSelectedClient(null);
+    setCurrentView('clients');
+  };
 
   const fetchClients = async () => {
+    if (!account) return;
     setLoading(true);
     try {
-      const response = await fetch(`${API_BASE}/clients`);
+      const response = await apiFetch('/clients', {}, account);
       if (!response.ok) throw new Error('API server returned error');
       const data = await response.json();
       setClients(data);
@@ -107,11 +124,12 @@ export default function App() {
     } catch (error) {
       console.warn('Backend API not reachable. Falling back to LocalStorage.', error);
       setUseLocalFallback(true);
-      const localData = localStorage.getItem('aura_clients');
+      const localKey = `aura_clients_${account.id}`;
+      const localData = localStorage.getItem(localKey);
       if (localData) {
         setClients(JSON.parse(localData));
       } else {
-        localStorage.setItem('aura_clients', JSON.stringify(DEFAULT_CLIENTS));
+        localStorage.setItem(localKey, JSON.stringify(DEFAULT_CLIENTS));
         setClients(DEFAULT_CLIENTS);
       }
     } finally {
@@ -121,8 +139,8 @@ export default function App() {
 
   const updateClientsState = (newClients) => {
     setClients(newClients);
-    if (useLocalFallback) {
-      localStorage.setItem('aura_clients', JSON.stringify(newClients));
+    if (useLocalFallback && account) {
+      localStorage.setItem(`aura_clients_${account.id}`, JSON.stringify(newClients));
     }
     if (selectedClient) {
       const updatedSelect = newClients.find((c) => c.id === selectedClient.id);
@@ -183,24 +201,22 @@ export default function App() {
       });
     } else {
       try {
-        const response = await fetch(`${API_BASE}/clients`, {
+        const response = await apiFetch('/clients', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(newClientData),
-        });
+        }, account);
         if (response.ok) {
           const created = await response.json();
           if (Number(newClientData.value) > 0) {
-            await fetch(`${API_BASE}/clients/${created.id}/payments`, {
+            await apiFetch(`/clients/${created.id}/payments`, {
               method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 amount: newClientData.value,
                 date: new Date().toISOString().split('T')[0],
                 method: 'Cash',
                 status: 'Paid',
               }),
-            });
+            }, account);
           }
           fetchClients();
           setShowAddClient(false);
@@ -244,9 +260,8 @@ export default function App() {
     } else {
       try {
         const client = clients.find((c) => c.id === clientId);
-        const response = await fetch(`${API_BASE}/clients/${clientId}`, {
+        const response = await apiFetch(`/clients/${clientId}`, {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             status: newStatus,
             timeline: [
@@ -259,7 +274,7 @@ export default function App() {
               ...client.timeline,
             ],
           }),
-        });
+        }, account);
         if (response.ok) {
           const updatedClient = await response.json();
           updateClientsState(clients.map((c) => (c.id === clientId ? updatedClient : c)));
@@ -312,11 +327,10 @@ export default function App() {
       });
     } else {
       try {
-        const response = await fetch(`${API_BASE}/clients/${selectedClient.id}/appointments`, {
+        const response = await apiFetch(`/clients/${selectedClient.id}/appointments`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(newProjectData),
-        });
+        }, account);
         if (response.ok) {
           const updatedClient = await response.json();
           updateClientsState(clients.map((c) => (c.id === selectedClient.id ? updatedClient : c)));
@@ -374,11 +388,10 @@ export default function App() {
       setNewInvoiceData({ amount: '', date: '', method: 'Card', status: 'Paid' });
     } else {
       try {
-        const response = await fetch(`${API_BASE}/clients/${selectedClient.id}/payments`, {
+        const response = await apiFetch(`/clients/${selectedClient.id}/payments`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(newInvoiceData),
-        });
+        }, account);
         if (response.ok) {
           const updatedClient = await response.json();
           updateClientsState(clients.map((c) => (c.id === selectedClient.id ? updatedClient : c)));
@@ -422,11 +435,10 @@ export default function App() {
       updateClientsState(updated);
     } else {
       try {
-        const response = await fetch(
-          `${API_BASE}/clients/${selectedClient.id}/payments/${paymentId}`,
-          {
-            method: 'DELETE',
-          }
+        const response = await apiFetch(
+          `/clients/${selectedClient.id}/payments/${paymentId}`,
+          { method: 'DELETE' },
+          account
         );
         if (response.ok) {
           const updatedClient = await response.json();
@@ -463,11 +475,10 @@ export default function App() {
       setNewLogData({ type: 'note', description: '' });
     } else {
       try {
-        const response = await fetch(`${API_BASE}/clients/${selectedClient.id}/timeline`, {
+        const response = await apiFetch(`/clients/${selectedClient.id}/timeline`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(newLogData),
-        });
+        }, account);
         if (response.ok) {
           const updatedClient = await response.json();
           updateClientsState(clients.map((c) => (c.id === selectedClient.id ? updatedClient : c)));
@@ -489,9 +500,9 @@ export default function App() {
       setSelectedClient(null);
     } else {
       try {
-        const response = await fetch(`${API_BASE}/clients/${clientId}`, {
+        const response = await apiFetch(`/clients/${clientId}`, {
           method: 'DELETE',
-        });
+        }, account);
         if (response.ok) {
           setClients(clients.filter((c) => c.id !== clientId));
           setCurrentView('clients');
@@ -502,9 +513,7 @@ export default function App() {
       }
     }
   };
-  useEffect(() => {
-    console.log(currentView);
-  }, [currentView]);
+
   const computeStats = () => {
     let totalRevenue = 0;
     let pendingRevenue = 0;
@@ -543,6 +552,17 @@ export default function App() {
     return matchesSearch && matchesStatus;
   });
 
+  if (!account) {
+    return (
+      <AuthPage
+        theme={theme}
+        lang={lang}
+        t={t}
+        onAuthSuccess={handleAuthSuccess}
+      />
+    );
+  }
+
   return (
     <div className="app-container">
       <Sidebar
@@ -554,10 +574,15 @@ export default function App() {
         lang={lang}
         setLang={setLang}
         t={t}
+        account={account}
+        onLogout={handleLogout}
       />
 
       {/* Main Panel */}
       <main className="main-content">
+        {account.role === 'coworker' && (
+          <InvitesPanel account={account} t={t} />
+        )}
         {/* Status Indicator */}
         {useLocalFallback && (
           <div
@@ -663,6 +688,16 @@ export default function App() {
         )}
         {/* Finance View */}
         {finance && <FinanceView clients={clients} t={t} />}
+
+        {/* Admin: Network View */}
+        {currentView === 'network' && account.role === 'admin' && (
+          <AdminNetworkView account={account} t={t} />
+        )}
+
+        {/* Admin: Income View */}
+        {currentView === 'admin-income' && account.role === 'admin' && (
+          <AdminIncomeView account={account} t={t} />
+        )}
       </main>
     </div>
   );

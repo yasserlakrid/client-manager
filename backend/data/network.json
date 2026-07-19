@@ -1,0 +1,22 @@
+[
+  {
+    "id": "net_1784428305640",
+    "adminId": "acc_1784427913394",
+    "adminName": "yasser",
+    "coworkerId": "acc_1784428105586",
+    "coworkerName": "youcef",
+    "status": "accepted",
+    "createdAt": "2026-07-19T02:31:45.640Z",
+    "respondedAt": "2026-07-19T02:32:05.327Z"
+  },
+  {
+    "id": "net_1784428307824",
+    "adminId": "acc_1784427913394",
+    "adminName": "yasser",
+    "coworkerId": "acc_1784427623362",
+    "coworkerName": "Coworker One",
+    "status": "pending",
+    "createdAt": "2026-07-19T02:31:47.824Z",
+    "respondedAt": null
+  }
+]
