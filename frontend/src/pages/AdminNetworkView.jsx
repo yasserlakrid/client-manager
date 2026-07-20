@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search, UserPlus, Users, Mail } from 'lucide-react';
 import { apiFetch } from '../api';
-
+import SearchBar from '../components/SearchBar';
 export default function AdminNetworkView({ account, t }) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
@@ -53,6 +53,12 @@ export default function AdminNetworkView({ account, t }) {
       setMessage(t.inviteFailed);
     }
   };
+  const [filtredResults, setFilteredResults] = useState([]);
+
+useEffect(() => {
+  handleSearch();
+  setFilteredResults(results.filter((user) => !network.some((conn) => conn.coworkerId === user.id)));
+} , [query] )
 
   return (
     <div>
@@ -69,25 +75,22 @@ export default function AdminNetworkView({ account, t }) {
 
       <div className="card" style={{ marginBottom: '24px' }}>
         <h3 style={{ marginBottom: '16px' }}>{t.searchCoworkers}</h3>
-        <div style={{ display: 'flex', gap: '12px' }}>
-          <div className="search-bar" style={{ flex: 1 }}>
-            <Search size={18} />
-            <input
-              type="text"
-              placeholder={t.searchAccountsPlaceholder}
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-            />
-          </div>
-          <button className="btn-primary" onClick={handleSearch} disabled={loading}>
-            {loading ? t.loading : t.search}
-          </button>
-        </div>
-
-        {results.length > 0 && (
+        
+ <SearchBar
+            t={t}
+            Icon={Search}
+            setSearchQuery={setQuery}
+            options={[
+              { value: 'All', label: 'allStatuses' },
+              { value: 'Active', label: 'active' },
+              { value: 'Inactive', label: 'inactive' }
+            ]}
+            
+            searchQuery={query}
+          />
+        {filtredResults.length > 0 &&  query !== '' && (
           <div style={{ marginTop: '20px' }}>
-            {results.map((user) => (
+            {filtredResults.map((user) => (
               <div key={user.id} className="network-result-row">
                 <div>
                   <strong>{user.name}</strong>
@@ -109,7 +112,8 @@ export default function AdminNetworkView({ account, t }) {
           <p style={{ marginTop: '16px', color: 'var(--text-muted)' }}>{t.noAccountsFound}</p>
         )}
       </div>
-
+       
+        <div style={{ display: 'flex', gap: '12px' }}></div>
       <div className="card">
         <h3 style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Users size={20} />
@@ -119,6 +123,7 @@ export default function AdminNetworkView({ account, t }) {
           <p style={{ color: 'var(--text-muted)' }}>{t.noConnectedCoworkers}</p>
         ) : (
           network.map((conn) => (
+            
             <div key={conn.id} className="network-result-row">
               <div>
                 <strong>{conn.coworkerName}</strong>

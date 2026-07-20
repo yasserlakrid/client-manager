@@ -1,5 +1,6 @@
 import React from 'react';
 import { Plus, Search, Calendar } from 'lucide-react';
+import SearchBar from '../components/SearchBar';
 
 export default function DirectoryView({ 
   filteredClients, 
@@ -26,30 +27,20 @@ export default function DirectoryView({
       </div>
 
       {/* Filter toolbar */}
-      <div className="glass-card" style={{ padding: '16px', marginBottom: '24px' }}>
-        <div className="search-filter-row">
-          <div className="search-input-wrapper">
-            <Search size={20} />
-            <input 
-              type="text" 
-              placeholder={t.searchPlaceholder} 
-              className="search-input"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-
-          <select 
-            className="select-filter"
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-          >
-            <option value="All">{t.allStatuses}</option>
-            <option value="Active">{t.active}</option>
-            <option value="Inactive">{t.inactive}</option>
-          </select>
-        </div>
-      </div>
+      <SearchBar 
+        t={t} 
+        Icon={Search} 
+        setSearchQuery={setSearchQuery} 
+        options={[
+          { value: 'All', label: 'allStatuses' },
+          { value: 'Active', label: 'active' },
+          { value: 'Inactive', label: 'inactive' }
+        ]}
+        setStatusFilter={setStatusFilter}
+        statusFilter={statusFilter}
+        searchQuery={searchQuery}
+      />
+      
 
       {/* Patients Table */}
       <div className="glass-card" style={{ padding: '0px', overflow: 'hidden' }}>
