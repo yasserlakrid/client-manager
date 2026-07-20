@@ -57,7 +57,7 @@ export default function AdminNetworkView({ account, t }) {
 
 useEffect(() => {
   handleSearch();
-  setFilteredResults(results.filter((user) => !network.some((conn) => conn.coworkerId === user.id)));
+  console.log(query);
 } , [query] )
 
   return (
@@ -88,9 +88,9 @@ useEffect(() => {
             
             searchQuery={query}
           />
-        {filtredResults.length > 0 &&  query !== '' && (
+        {results.length > 0 &&  query !== '' && (
           <div style={{ marginTop: '20px' }}>
-            {filtredResults.map((user) => (
+            {results.map((user) => (
               <div key={user.id} className="network-result-row">
                 <div>
                   <strong>{user.name}</strong>
@@ -123,7 +123,7 @@ useEffect(() => {
           <p style={{ color: 'var(--text-muted)' }}>{t.noConnectedCoworkers}</p>
         ) : (
           network.map((conn) => (
-            
+
             <div key={conn.id} className="network-result-row">
               <div>
                 <strong>{conn.coworkerName}</strong>

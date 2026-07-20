@@ -551,7 +551,7 @@ export default function App() {
 
     return matchesSearch && matchesStatus;
   });
-
+  
   if (!account) {
     return (
       <AuthPage
