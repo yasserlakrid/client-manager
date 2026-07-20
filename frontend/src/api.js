@@ -1,5 +1,6 @@
-const API_BASE = '/api';
+const API_BASE =  import.meta.env.VITE_API_URL  + '/api'; 
 
+console.log("API_BASE", API_BASE);
 export function getStoredAccount() {
   try {
     const raw = localStorage.getItem('aura_account');
