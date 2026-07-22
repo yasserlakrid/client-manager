@@ -55,10 +55,6 @@ export default function AdminNetworkView({ account, t }) {
   };
   const [filtredResults, setFilteredResults] = useState([]);
 
-useEffect(() => {
-  handleSearch();
-  console.log(query);
-} , [query] )
 
   return (
     <div>

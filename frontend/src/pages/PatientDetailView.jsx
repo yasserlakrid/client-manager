@@ -64,7 +64,7 @@ export default function PatientDetailView({
                   </div>
                   <div className="profile-detail-item">
                     <span className="profile-detail-label">{t.totalPayment}</span>
-                    <span className="profile-detail-val">{selectedClient.totalPayment.toLocaleString()} DA</span>
+                    <span className="profile-detail-val">{selectedClient.total_payment.toLocaleString()} DA</span>
                   </div>
                   <div className="profile-detail-item">
                     <span className="profile-detail-label">Phone</span>
