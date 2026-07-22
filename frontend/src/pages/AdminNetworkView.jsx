@@ -12,6 +12,10 @@ export default function AdminNetworkView({ account, t }) {
   useEffect(() => {
     fetchNetwork();
   }, []);
+  
+  useEffect(() => {
+    console.log('Results updated:', results);
+  },[results])
 
   const fetchNetwork = async () => {
     try {
@@ -25,6 +29,7 @@ export default function AdminNetworkView({ account, t }) {
   const handleSearch = async () => {
     setLoading(true);
     setMessage('');
+    console.log('Searching for:', query);
     try {
       const res = await apiFetch(`/accounts/search?q=${encodeURIComponent(query)}`, {}, account);
       if (res.ok) setResults(await res.json());
@@ -54,7 +59,7 @@ export default function AdminNetworkView({ account, t }) {
     }
   };
   const [filtredResults, setFilteredResults] = useState([]);
-
+useEffect(() => {console.log('Filtered results updated:',results)},[results])
 
   return (
     <div>
@@ -76,6 +81,7 @@ export default function AdminNetworkView({ account, t }) {
             t={t}
             Icon={Search}
             setSearchQuery={setQuery}
+            handleSearch={handleSearch}
             options={[
               { value: 'All', label: 'allStatuses' },
               { value: 'Active', label: 'active' },

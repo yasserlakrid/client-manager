@@ -1,5 +1,21 @@
-function SearchBar({ t , Icon , setSearchQuery , options , setStatusFilter , statusFilter , searchQuery  }) {
-    return (
+import { useRef ,  useEffect, useState } from "react";
+
+function SearchBar({ t , Icon , setSearchQuery , options , setStatusFilter , statusFilter , searchQuery  , handleSearch  }) {
+   const timeoutRef = useRef(null);
+
+  function handleSearchInputChange(e) {
+    setSearchQuery(e.target.value);
+
+    clearTimeout(timeoutRef.current);
+
+    timeoutRef.current = setTimeout(() => {
+      if(handleSearch){
+      handleSearch();
+      }
+    }, 300);
+  }
+
+  return (
          <div className="glass-card" style={{ padding: '16px', marginBottom: '24px' }}>
         <div className="search-filter-row">
           <div className="search-input-wrapper">
@@ -9,7 +25,7 @@ function SearchBar({ t , Icon , setSearchQuery , options , setStatusFilter , sta
               placeholder={t.searchPlaceholder} 
               className="search-input"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={handleSearchInputChange}
             />
           </div>
         {options && setStatusFilter && statusFilter !== undefined && (
