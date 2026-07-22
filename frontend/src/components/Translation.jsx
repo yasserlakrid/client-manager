@@ -94,7 +94,6 @@
         paymentsTotal: 'payments total',
         pendingRevenue: 'Pending Revenue',
         awaitingCollection: 'Awaiting collection',
-        activePatients: 'Active Patients',
         ofTotal: 'of',
         total: 'total',
         paymentTimeline: 'Payment Timeline',
@@ -148,6 +147,7 @@
         teamNetwork: 'Clinic team',
         networkIncome: 'Clinic Income',
         welcomeUser: 'Welcome',
+        creatingProfile:"Creating Profile...",
       },
       fr: {
         dashboard: "Tableau de Bord",
@@ -243,7 +243,7 @@
         paymentsTotal: 'paiements au total',
         pendingRevenue: 'Revenus en Attente',
         awaitingCollection: 'En attente de recouvrement',
-        activePatients: 'Patients Actifs',
+       
         ofTotal: 'sur',
         total: 'au total',
         paymentTimeline: 'Historique des Paiements',
@@ -297,7 +297,9 @@
         teamNetwork: 'Réseau de la clinique',
         networkIncome: 'Revenus de la clinique',
         welcomeUser: 'Bienvenue',
+        creatingProfile:"Création du Profil...",
       }
+      
     };
     
     return TRANSLATIONS;

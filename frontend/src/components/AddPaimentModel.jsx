@@ -1,3 +1,5 @@
+
+
 function AddPaymentModal({ onClose, onAddPayment ,setNewInvoiceData , setShowAddInvoice,  t , handleAddPayment, newInvoiceData , showAddInvoice     }) {
     return (
         <div className="modal-overlay" onClick={() => setShowAddInvoice(false)}>

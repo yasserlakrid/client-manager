@@ -147,10 +147,12 @@ export default function App() {
       setSelectedClient(updatedSelect || null);
     }
   };
-
+const [loadingCreateClient, setLoadingCreateClient] = useState(false);
   const handleCreateClient = async (e) => {
     e.preventDefault();
     if (!newClientData.name) return;
+
+    setLoadingCreateClient(true);
 
     if (useLocalFallback) {
       const newClient = {
@@ -207,6 +209,7 @@ export default function App() {
         }, account);
         if (response.ok) {
           const created = await response.json();
+          setLoadingCreateClient(false);
           if (Number(newClientData.value) > 0) {
             await apiFetch(`/clients/${created.id}/payments`, {
               method: 'POST',
@@ -634,6 +637,7 @@ export default function App() {
 
             {showAddClient && (
               <AddPatientModal
+                loading={loadingCreateClient}
                 show={showAddClient}
                 onClose={() => setShowAddClient(false)}
                 newClientData={newClientData}

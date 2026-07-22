@@ -7,7 +7,8 @@ export default function AddPatientModal({
   newClientData,
   setNewClientData,
   handleCreateClient,
-  t
+  t, 
+  loading
 }) {
   if (!show) return null;
 
@@ -90,7 +91,9 @@ export default function AddPatientModal({
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" onClick={onClose}>{t.cancel}</button>
-            <button type="submit" className="btn btn-primary">{t.createProfile}</button>
+            <button type="submit" className="btn btn-primary" disabled={loading}>
+              {loading ? t.creatingProfile : t.createProfile}
+            </button>
           </div>
         </form>
       </div>

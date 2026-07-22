@@ -1,6 +1,15 @@
 import React from 'react';
 import { X } from 'lucide-react';
 
+import React from 'react';
+
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
+import { colourOptions } from '../data';
+
+const animatedComponents = makeAnimated();
+
+
 export default function AddAppointmentModal({
   show,
   onClose,
@@ -23,7 +32,7 @@ export default function AddAppointmentModal({
             <div className="form-group">
               <label>{t.procedureSelect}</label>
               <select
-                className="form-control"
+                className="form-control bg-black"
                 value={newProjectData.treatment}
                 onChange={(e) => setNewProjectData({ ...newProjectData, treatment: e.target.value })}
               >
