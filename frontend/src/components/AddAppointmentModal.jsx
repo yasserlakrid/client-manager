@@ -1,14 +1,6 @@
 import React from 'react';
 import { X } from 'lucide-react';
 
-import React from 'react';
-
-import Select from 'react-select';
-import makeAnimated from 'react-select/animated';
-import { colourOptions } from '../data';
-
-const animatedComponents = makeAnimated();
-
 
 export default function AddAppointmentModal({
   show,
@@ -16,8 +8,34 @@ export default function AddAppointmentModal({
   newProjectData,
   setNewProjectData,
   handleAddAppointment,
-  t
+  t,
+  
 }) {
+  console.log('New Project Data:', t.cleaning);
+  const options = [
+  
+  { id: 1, label: t.cleaning },
+  { id: 2, label: t.filling },
+  { id: 3, label: t.rootCanal },
+  { id: 4, label: t.extraction },
+  { id: 5, label: t.implant },
+  { id: 6, label: t.crown },
+  { id: 7, label: t.bridge },
+  { id: 8, label: t.veneer },
+  { id: 9, label: t.whitening },
+  { id: 10, label: t.orthodontics },
+  { id: 11, label: t.denture },
+  { id: 12, label: t.gumTreatment },
+  { id: 13, label: t.oralSurgery },
+  { id: 14, label: t.pediatricDentistry },
+  { id: 15, label: t.consultation },
+  { id: 16, label: t.xray },
+  { id: 17, label: t.emergencyCare },
+  { id: 18, label: t.scaling },
+  { id: 19, label: t.wisdomToothRemoval },
+  { id: 20, label: t.sealants }
+  
+]
   if (!show) return null;
 
   return (
@@ -36,14 +54,12 @@ export default function AddAppointmentModal({
                 value={newProjectData.treatment}
                 onChange={(e) => setNewProjectData({ ...newProjectData, treatment: e.target.value })}
               >
-                <option value="Cleaning & Checkup">Cleaning & Checkup / Nettoyage & Contrôle</option>
-                <option value="Root Canal Therapy">Root Canal Therapy / Traitement de Canal</option>
-                <option value="Tooth Filling">Tooth Filling / Plombage</option>
-                <option value="Tooth Extraction">Tooth Extraction / Extraction Dentaire</option>
-                <option value="Dental Crown / Bridge">Dental Crown / Couronne Dentaire</option>
-                <option value="Dental Implant Consultation">Dental Implant / Consultation Implant</option>
-                <option value="Teeth Whitening">Teeth Whitening / Blanchiment</option>
-                <option value="Invisalign Adjustments">Invisalign / Ajustement Invisalign</option>
+                {
+                  options.map((option, index) => (
+                    <option key={index} value={option.id}>{option.label}</option>
+                  ))
+                }
+                
               </select>
             </div>
             <div className="form-group">

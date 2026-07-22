@@ -669,6 +669,7 @@ const [loadingCreateClient, setLoadingCreateClient] = useState(false);
             setNewProjectData={setNewProjectData}
             handleAddAppointment={handleAddAppointment}
             t={t}
+           
           />
         )}
         {currentView == 'details' && (
