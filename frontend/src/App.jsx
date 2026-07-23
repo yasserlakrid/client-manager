@@ -41,7 +41,7 @@ import { getStoredAccount, clearAccount, apiFetch } from './api';
 const DEFAULT_CLIENTS = [];
 
 export default function App() {
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState(localStorage.getItem('theme')||"light");
   const [lang, setLang] = useState('en');
   const [account, setAccount] = useState(() => getStoredAccount());
   const [currentView, setCurrentView] = useState('clients');

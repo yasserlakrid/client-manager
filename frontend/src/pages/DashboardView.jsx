@@ -24,7 +24,7 @@ export default function DashboardView({ stats, clients, setShowAddClient, setSel
           </div>
         </div>
         <div className="glass-card metric-card">
-          <div className="metric-icon-wrapper" style={{ backgroundColor: 'var(--success-bg)', color: 'var(--success)' }}>
+          <div className="metric-icon-wrapper" style={{ backgroundColor: 'var(--primary-glow)', color: 'var(--primary)' }}>
             <TrendingUp size={24} />
           </div>
           <div className="metric-info">
@@ -33,7 +33,7 @@ export default function DashboardView({ stats, clients, setShowAddClient, setSel
           </div>
         </div>
         <div className="glass-card metric-card">
-          <div className="metric-icon-wrapper" style={{ backgroundColor: 'var(--info-bg)', color: 'var(--info)' }}>
+          <div className="metric-icon-wrapper" style={{ backgroundColor: 'var(--primary-glow)', color: 'var(--primary)' }}>
             <Calendar size={24} />
           </div>
           <div className="metric-info">

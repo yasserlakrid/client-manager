@@ -211,28 +211,28 @@ export default function FinanceView({ clients, t }) {
           label={t.totalRevenue}
           value={`${totalRevenue.toLocaleString()} DA`}
           sub={t.allPaidInvoices}
-          color="#6366f1"
+          color="var(--primary)"
         />
         <StatCard
           icon={TrendingUp}
           label={t.avgPerPayment}
           value={`${avgPerPayment.toLocaleString()} DA`}
           sub={`${totalPayments} ${t.paymentsTotal}`}
-          color="#10b981"
+          color="var(--primary)"
         />
         <StatCard
           icon={Calendar}
           label={t.pendingRevenue}
           value={`${pendingRevenue.toLocaleString()} DA`}
           sub={t.awaitingCollection}
-          color="#f59e0b"
+          color="var(--primary)"
         />
         <StatCard
           icon={BarChart2}
           label={t.activePatients}
           value={clients.filter((c) => c.status === 'Active').length}
           sub={`${t.ofTotal} ${clients.length} ${t.total}`}
-          color="#ec4899"
+          color="var(--primary)"
         />
       </div>
 
@@ -282,7 +282,7 @@ export default function FinanceView({ clients, t }) {
                     cursor: 'pointer',
                     fontSize: '0.8rem',
                     fontWeight: '600',
-                    background: mode === key ? '#6366f1' : 'transparent',
+                    background: mode === key ? 'var(--primary)' : 'transparent',
                     color: mode === key ? '#fff' : 'var(--text-muted)',
                     transition: 'all 0.2s',
                   }}
@@ -313,7 +313,7 @@ export default function FinanceView({ clients, t }) {
                     cursor: 'pointer',
                     fontSize: '0.8rem',
                     fontWeight: '600',
-                    background: chartType === type ? '#6366f1' : 'transparent',
+                    background: chartType === type ? 'var(--primary)' : 'transparent',
                     color: chartType === type ? '#fff' : 'var(--text-muted)',
                     transition: 'all 0.2s',
                     textTransform: 'capitalize',
@@ -346,8 +346,8 @@ export default function FinanceView({ clients, t }) {
               <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
-                    <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+                    <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
@@ -367,10 +367,10 @@ export default function FinanceView({ clients, t }) {
                 <Area
                   type="monotone"
                   dataKey="total"
-                  stroke="#6366f1"
+                  stroke="var(--primary)"
                   strokeWidth={2.5}
                   fill="url(#colorRevenue)"
-                  dot={{ fill: '#6366f1', r: 4 }}
+                  dot={{ fill: 'var(--primary)', r: 4 }}
                   activeDot={{ r: 6 }}
                   name="Revenue (DA)"
                 />
@@ -391,7 +391,7 @@ export default function FinanceView({ clients, t }) {
                   tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`}
                 />
                 <Tooltip content={<CustomTooltip />} />
-                <Bar dataKey="total" fill="#6366f1" radius={[6, 6, 0, 0]} name="Revenue (DA)" />
+                <Bar dataKey="total" fill="var(--primary)" radius={[6, 6, 0, 0]} name="Revenue (DA)" />
               </BarChart>
             )}
           </ResponsiveContainer>
@@ -457,7 +457,7 @@ export default function FinanceView({ clients, t }) {
                       style={{
                         height: '100%',
                         width: `${Math.min(100, (paid / totalRevenue) * 100)}%`,
-                        background: 'linear-gradient(90deg, #6366f1, #8b5cf6)',
+                        background: 'linear-gradient(90deg, var(--primary), var(--primary-hover))',
                         borderRadius: 99,
                         transition: 'width 0.6s ease',
                       }}

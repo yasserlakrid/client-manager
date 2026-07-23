@@ -25,11 +25,14 @@ export default function Sidebar({
   onLogout,
 }) {
   const isAdmin = account?.role === 'admin';
-
+function toggleTheme() {
+  setTheme(theme === 'dark' ? 'light' : 'dark')
+  localStorage.setItem('theme', theme === 'dark' ? 'light' : 'dark');
+}
   return (
     <aside className="sidebar">
       <div className="logo-container">
-        <HeartPulse size={28} color="#6366f1" />
+        <HeartPulse size={28} color="#800f2f" />
         <span className="logo-text">Lakrid Dental</span>
       </div>
 
@@ -94,7 +97,7 @@ export default function Sidebar({
 
         <div
           className="nav-item"
-          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+          onClick={toggleTheme}
         >
           {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
           <span>
