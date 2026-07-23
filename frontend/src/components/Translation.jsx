@@ -169,8 +169,11 @@
     scaling: "Scaling and Polishing",
     wisdomToothRemoval: "Wisdom Tooth Removal",
     sealants: "Dental Sealants",
+    adminIncomeweek: "last Week Income per Coworker",
+
       },
       fr: {
+        adminIncomeweek: "Revenu de la dernière semaine par Collaborateur",
         dashboard: "Tableau de Bord",
         patients: "Patients",
         registeredPatients: "Patients Enregistrés",

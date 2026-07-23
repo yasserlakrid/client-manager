@@ -13,16 +13,24 @@ app.use(express.json());
 
 async function getClients(accountId) {
   const result = await pool.query('SELECT * FROM clients WHERE account_id = $1', [accountId]);
-  const clients = result.rows;
+  const clients = result.rows.map(row => ({
+    ...row,
+    totalPayment: Number(row.total_payment), // Convert to camelCase and Number
+    value: Number(row.value) // Convert to Number
+  }));
 
   for (const client of clients) {
     // Get appointments
     const aptResult = await pool.query('SELECT * FROM appointments WHERE client_id = $1', [client.id]);
     client.appointments = aptResult.rows;
 
-    // Get payments
+    // Get payments, convert amount to Number
     const payResult = await pool.query('SELECT * FROM payments WHERE client_id = $1', [client.id]);
-    client.payments = payResult.rows;
+    client.payments = payResult.rows.map(row => ({
+      ...row,
+      amount: Number(row.amount),
+      receiptNumber: row.receipt_number // add camelCase receiptNumber
+    }));
 
     // Get timeline
     const tlResult = await pool.query('SELECT * FROM timeline WHERE client_id = $1', [client.id]);
@@ -484,9 +492,29 @@ app.put('/api/clients/:id', requireAuth, async (req, res) => {
     }
 
     const { name, email, phone, company, status, value, totalPayment } = req.body;
+
+    // If status changed, add a timeline entry
+    if (status && status !== client.status) {
+      const newTimelineId = `t_${Date.now()}`;
+      const today = new Date().toISOString().split('T')[0];
+      await pool.query(
+        'INSERT INTO timeline (id, client_id, date, type, description) VALUES ($1, $2, $3, $4, $5)',
+        [newTimelineId, req.params.id, today, 'system', `Status changed from ${client.status} to ${status}.`]
+      );
+    }
+
     await pool.query(
       'UPDATE clients SET name = $1, email = $2, phone = $3, company = $4, status = $5, value = $6, total_payment = $7 WHERE id = $8',
-      [name || client.name, email || client.email, phone || client.phone, company || client.company, status || client.status, Number(value) || client.value, Number(totalPayment) || client.total_payment, req.params.id]
+      [
+        name || client.name, 
+        email || client.email, 
+        phone || client.phone, 
+        company || client.company, 
+        status || client.status, 
+        Number(value) !== undefined ? Number(value) : client.value, 
+        Number(totalPayment) !== undefined ? Number(totalPayment) : client.totalPayment, 
+        req.params.id
+      ]
     );
 
     const updatedClient = await getClient(req.account.id, req.params.id);
@@ -494,6 +522,35 @@ app.put('/api/clients/:id', requireAuth, async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Failed to update patient profile' });
+  }
+});
+
+// Add timeline entry
+app.post('/api/clients/:id/timeline', requireAuth, async (req, res) => {
+  try {
+    const client = await getClient(req.account.id, req.params.id);
+    if (!client) {
+      return res.status(404).json({ error: 'Patient not found' });
+    }
+
+    const { type, description } = req.body;
+    if (!description) {
+      return res.status(400).json({ error: 'Description is required' });
+    }
+
+    const newTimelineId = `t_${Date.now()}`;
+    const today = new Date().toISOString().split('T')[0];
+
+    await pool.query(
+      'INSERT INTO timeline (id, client_id, date, type, description) VALUES ($1, $2, $3, $4, $5)',
+      [newTimelineId, req.params.id, today, type || 'note', description]
+    );
+
+    const updatedClient = await getClient(req.account.id, req.params.id);
+    res.status(201).json(updatedClient);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to add timeline entry' });
   }
 });
 
@@ -670,6 +727,12 @@ app.get('/api/stats', requireAuth, async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Express API running on port ${PORT}`);
+// Initialize database on server start
+initDatabase().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Express API running on port ${PORT}`);
+  });
+}).catch(err => {
+  console.error("Failed to initialize database:", err);
+  process.exit(1);
 });

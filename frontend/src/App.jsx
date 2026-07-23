@@ -262,20 +262,10 @@ const [loadingCreateClient, setLoadingCreateClient] = useState(false);
       updateClientsState(updated);
     } else {
       try {
-        const client = clients.find((c) => c.id === clientId);
         const response = await apiFetch(`/clients/${clientId}`, {
           method: 'PUT',
           body: JSON.stringify({
             status: newStatus,
-            timeline: [
-              {
-                id: `t_${Date.now()}`,
-                date: new Date().toISOString().split('T')[0],
-                type: 'system',
-                description: `Status changed from ${client.status} to ${newStatus}.`,
-              },
-              ...client.timeline,
-            ],
           }),
         }, account);
         if (response.ok) {

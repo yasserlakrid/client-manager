@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { DollarSign, Users, ChevronDown, ChevronUp } from 'lucide-react';
 import { apiFetch } from '../api';
+  import { useMemo } from "react";
 
+import BarChartDisplay from '../components/Barchart';
 export default function AdminIncomeView({ account, t }) {
   const [incomeData, setIncomeData] = useState({});
   const [expandedId, setExpandedId] = useState(null);
@@ -22,6 +24,32 @@ export default function AdminIncomeView({ account, t }) {
       setLoading(false);
     }
   };
+
+
+const data = useMemo(() => {
+  const days = Array.from({ length: 8 }, (_, i) => {
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+
+    return {
+      name: date.toISOString().split("T")[0]
+    };
+  });
+
+  days.forEach(day => {
+    for (const [, client] of Object.entries(incomeData)) {
+      client.payments.forEach(payment => {
+        if (payment.date.slice(0, 10) === day.name) {
+          day[client.coworkerName] =
+            (day[client.coworkerName] || 0) +
+            Number(payment.amount);
+        }
+      });
+    }
+  });
+
+  return days.reverse();
+}, [incomeData]);
 
   const coworkers = Object.entries(incomeData);
   const grandTotal = coworkers.reduce((sum, [, data]) => sum + (Number(data.totalIncome) || 0), 0);
@@ -98,7 +126,7 @@ export default function AdminIncomeView({ account, t }) {
                     <tbody>
                       {data.payments.map((p) => (
                         <tr key={p.id}>
-                          <td>{p.date}</td>
+                          <td>{p.date.slice(0, 10)}</td>
                           <td>{p.clientName}</td>
                           <td>{p.receiptNumber}</td>
                           <td style={{ fontWeight: 600, color: 'var(--success)' }}>
@@ -114,6 +142,11 @@ export default function AdminIncomeView({ account, t }) {
           </div>
         ))
       )}
+      
+      <div style={{ marginTop: '24px', display: 'flex', justifyContent: 'center' , flexDirection: 'column', alignItems: 'center'}}>
+      <h2>{t.adminIncomeweek}</h2>
+      <BarChartDisplay data = {data}/>
+      </div>
     </div>
   );
 }
