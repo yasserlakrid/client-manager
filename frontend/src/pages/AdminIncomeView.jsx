@@ -166,7 +166,7 @@ useEffect(() => {
       
       <div style={{ marginTop: '24px', display: 'flex', justifyContent: 'center' , flexDirection: 'column', alignItems: 'center'}}>
       <h2>{t.adminIncomeweek}</h2>
-      <div className="glass-card flex flex-row" style={{ width: '100%', maxWidth: '800px', padding: '24px' }}>
+      <div className="glass-card" style={{ width: '100%', maxWidth: '800px', padding: '24px' , gap : '16px' , display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
      
         <select onChange={(e) => handleSelectChange(e , coworkers)}
            style={{ marginBottom: '16px', padding: '8px', borderRadius: '4px', border: '1px solid var(--border)' }}>
