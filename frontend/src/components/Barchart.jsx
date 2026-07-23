@@ -5,8 +5,16 @@ import { RechartsDevtools } from '@recharts/devtools';
 
 
 // #endregion
-function  BarChartDisplay ({data}) {
-  
+function  BarChartDisplay ({data , activeList}) {
+  console.log('BarChartDisplay rendered with data:', data, 'and activeList:', activeList);
+  function findInArray(array, value) {
+    for (let i = 0; i < array.length; i++) {
+      if (array[i] === value) {
+        return true;
+      }
+    }
+    return false;
+  }
   return (
     <BarChart
       style={{ width: '100%', maxWidth: '700px', maxHeight: '70vh', aspectRatio: 1.618 }}
@@ -25,7 +33,7 @@ function  BarChartDisplay ({data}) {
       <YAxis width="auto"   interval={0}/>
       <Tooltip />
       <Legend />
-      {data.length !==0 && Object.keys(data[7]).filter(key => key !== 'name').map((key, index) => (
+      {data.length !==0 && Object.keys(data[7]).filter(key =>{ return key !== 'name' && findInArray(activeList, key.toString()) }).map((key, index) => (
         <Bar key={key} dataKey={key} fill={`hsl(${(index * 60) % 360}, 70%, 50%)`} radius={[10, 10, 0, 0]} />
       ))}
      

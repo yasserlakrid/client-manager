@@ -170,9 +170,10 @@
     wisdomToothRemoval: "Wisdom Tooth Removal",
     sealants: "Dental Sealants",
     adminIncomeweek: "last Week Income per Coworker",
-
+        allCoworkers : "all Coworkers"
       },
       fr: {
+        allCoworkers : "Tous les Collaborateurs",
         adminIncomeweek: "Revenu de la dernière semaine par Collaborateur",
         dashboard: "Tableau de Bord",
         patients: "Patients",

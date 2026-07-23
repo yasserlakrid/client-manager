@@ -67,7 +67,7 @@ export default function DashboardView({ stats, clients, setShowAddClient, setSel
                   <th>{t.receiptNo}</th>
                   <th>{t.patient}</th>
                   <th>{t.amount}</th>
-                  <th>{t.method}</th>
+                  
                 </tr>
               </thead>
               <tbody>
@@ -79,11 +79,7 @@ export default function DashboardView({ stats, clients, setShowAddClient, setSel
                     </td>
                     <td style={{ color: 'var(--text-secondary)' }}>{pay.patientName}</td>
                     <td>{pay.amount.toLocaleString()} DA</td>
-                    <td>
-                      <span className="badge badge-active">
-                        {pay.method === 'Card' ? t.card : pay.method === 'Cash' ? t.cash : pay.method === 'Insurance Claim' ? t.insuranceClaim : t.bankTransfer}
-                      </span>
-                    </td>
+                    
                   </tr>
                 ))}
                 {clients.flatMap(c => c.payments || []).length === 0 && (

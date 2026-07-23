@@ -8,7 +8,8 @@ export default function AdminIncomeView({ account, t }) {
   const [incomeData, setIncomeData] = useState({});
   const [expandedId, setExpandedId] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const [activeList, setActiveList] = useState([]);
+  const [selected, setSelected] = useState(false);
   useEffect(() => {
     fetchIncome();
   }, []);
@@ -25,6 +26,22 @@ export default function AdminIncomeView({ account, t }) {
     }
   };
 
+function handleSelectChange(e , coworkers ) {
+
+  setActiveList(()=>{
+    let selectedCoworkerId = e.target.value;
+
+    if (selectedCoworkerId === "all") {
+      return coworkers.map(([coworkerId, data]) => data.coworkerName);
+    } else {
+      const selectedCoworker = coworkers.find(([coworkerId, data]) => coworkerId === selectedCoworkerId);
+      return selectedCoworker ? [selectedCoworker[1].coworkerName] : [];
+    }
+  }
+  
+  )
+          setSelected(true);
+}
 
 const data = useMemo(() => {
   const days = Array.from({ length: 8 }, (_, i) => {
@@ -50,6 +67,10 @@ const data = useMemo(() => {
 
   return days.reverse();
 }, [incomeData]);
+
+useEffect(() => {
+  console.log('Active List updated:', activeList);
+} , [activeList]);
 
   const coworkers = Object.entries(incomeData);
   const grandTotal = coworkers.reduce((sum, [, data]) => sum + (Number(data.totalIncome) || 0), 0);
@@ -145,7 +166,19 @@ const data = useMemo(() => {
       
       <div style={{ marginTop: '24px', display: 'flex', justifyContent: 'center' , flexDirection: 'column', alignItems: 'center'}}>
       <h2>{t.adminIncomeweek}</h2>
-      <BarChartDisplay data = {data}/>
+      <div className="glass-card flex flex-row" style={{ width: '100%', maxWidth: '800px', padding: '24px' }}>
+     
+        <select onChange={(e) => handleSelectChange(e , coworkers)}
+           style={{ marginBottom: '16px', padding: '8px', borderRadius: '4px', border: '1px solid var(--border)' }}>
+          <option value="all">{t.allCoworkers}</option>
+          {coworkers.map(([coworkerId, data]) => (
+            <option key={coworkerId} value={coworkerId}>{data.coworkerName}</option>
+          ))}
+        </select>
+        
+        {selected && <BarChartDisplay data = {data} activeList={activeList || "all"}/> }  
+      </div>
+     
       </div>
     </div>
   );
